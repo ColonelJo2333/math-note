@@ -32,6 +32,128 @@
 }</style>
 </head>
 <body>
+    <!-- Fixed full-screen sketch background -->
+  <canvas id="bg-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; -webkit-mask-image: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 55%, black 100%); mask-image: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 55%, black 100%);"></canvas>
+  <script src="https://unpkg.com/roughjs@4.5.2/bundled/rough.js"></script>
+  <script>
+    (function() {
+      const canvas = document.getElementById('bg-canvas');
+      if (!canvas) return;
+      let rc;
+      const baseRoughOpts = {
+        stroke: 'rgba(50, 45, 40, 0.35)',
+        strokeWidth: 0.8,
+        roughness: 2.0,
+        bowing: 1.5,
+        disableMultiStroke: false
+      };
+
+      function drawPantsDiagram(w, h, ctx) {
+        const scale = Math.min(w, h) * 0.15;
+        const cx = w * 0.10;  
+        const cy = h * 0.14;  
+        const topRadiusX = scale;
+        const topRadiusY = scale * 0.3;
+        const bottomRadiusX = scale * 0.4;
+        const bottomRadiusY = scale * 0.15;
+        const dy = scale * 1.8;
+        const dx = scale * 0.65;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(-30 * Math.PI / 180);
+
+        rc.ellipse(0, 0, topRadiusX * 2, topRadiusY * 2, baseRoughOpts);
+        rc.ellipse(-dx, dy, bottomRadiusX * 2, bottomRadiusY * 2, baseRoughOpts);
+        rc.ellipse(dx, dy, bottomRadiusX * 2, bottomRadiusY * 2, baseRoughOpts);
+
+        rc.path(`M ${-topRadiusX} 0 C ${-topRadiusX} ${dy/2}, ${-dx - bottomRadiusX} ${dy/2}, ${-dx - bottomRadiusX} ${dy}`, baseRoughOpts);
+        rc.path(`M ${topRadiusX} 0 C ${topRadiusX} ${dy/2}, ${dx + bottomRadiusX} ${dy/2}, ${dx + bottomRadiusX} ${dy}`, baseRoughOpts);
+        rc.path(`M ${-dx + bottomRadiusX} ${dy} C ${-dx + bottomRadiusX} ${dy*0.5}, ${dx - bottomRadiusX} ${dy*0.5}, ${dx - bottomRadiusX} ${dy}`, baseRoughOpts);
+
+        const dashOpts = { ...baseRoughOpts, strokeLineDash: [6, 8], strokeWidth: 0.6, roughness: 1.5 };
+        const midY = dy * 0.4;
+        rc.path(`M ${-dx*0.8} ${midY + 10} Q 0 ${midY - 20} ${dx*0.8} ${midY + 10}`, dashOpts);
+        
+        const midY2 = dy * 0.7;
+        rc.path(`M ${-dx*1.1} ${midY2} Q ${-dx*0.5} ${midY2 - 15} ${-dx + bottomRadiusX*0.8} ${midY2 + 5}`, dashOpts);
+        rc.path(`M ${dx*1.1} ${midY2} Q ${dx*0.5} ${midY2 - 15} ${dx - bottomRadiusX*0.8} ${midY2 + 5}`, dashOpts);
+
+        ctx.font = "italic 1.6rem 'Georgia', serif";
+        ctx.fillStyle = "rgba(50, 45, 40, 0.4)";
+        ctx.fillText("Σ (g=0, h=3)", -scale*0.3, dy * 0.35);
+        ctx.fillText("γ₁", -dx - bottomRadiusX*1.3, dy + 25);
+        ctx.fillText("γ₂", dx + bottomRadiusX*0.8, dy + 25);
+        ctx.font = "italic 1.2rem 'Georgia', serif";
+        ctx.fillText("τ →", topRadiusX + 25, dy * 0.5);
+        ctx.restore();
+      }
+
+      function drawPoincareDisk(w, h, ctx) {
+        const maxRadius = Math.min(w, h) * 0.65;  
+        const cw = w - maxRadius * 0.4; 
+        const ch = h - maxRadius * 0.35;
+
+        ctx.save();
+        rc.circle(cw, ch, maxRadius * 2, { ...baseRoughOpts, strokeWidth: 1.2, strokeLineDash: [6, 8], roughness: 1.0 });
+
+        ctx.font = "italic 1.6rem 'Georgia', serif";
+        ctx.fillStyle = "rgba(50, 45, 40, 0.4)";
+        ctx.fillText("∂ℍ²", cw - maxRadius - 10, ch - 40); 
+        ctx.fillText("ds² = 4|dz|² / (1-|z|²)²", w - 280, h - 30); 
+
+        rc.circle(cw, ch, 8, { ...baseRoughOpts, strokeWidth: 1.5, fill: 'rgba(50, 45, 40, 0.2)', fillStyle: 'solid' });
+        ctx.font = "italic 1.2rem 'Georgia', serif";
+        ctx.fillText("0", cw + 15, ch + 15);
+
+        ctx.beginPath();
+        ctx.arc(cw, ch, maxRadius, 0, Math.PI * 2);
+        ctx.clip();
+
+        const numLines = 30; 
+        for (let i = 0; i < numLines; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const densityBias = Math.random(); 
+          const D = maxRadius * (1.05 + densityBias * 6); 
+          const gCenterX = cw + Math.cos(angle) * D;
+          const gCenterY = ch + Math.sin(angle) * D;
+          const r = Math.sqrt(D * D - maxRadius * maxRadius);
+
+          rc.circle(gCenterX, gCenterY, r * 2, {
+            ...baseRoughOpts,
+            strokeWidth: (Math.random() * 0.4) + 0.4, 
+            roughness: (Math.random() * 1.0) + 0.5, 
+            bowing: 1.0
+          });
+        }
+        ctx.restore();
+      }
+
+      function renderBackground() {
+        if (!window.rough) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        rc = rough.canvas(canvas);
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPantsDiagram(canvas.width, canvas.height, ctx);
+        drawPoincareDisk(canvas.width, canvas.height, ctx);
+      }
+
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(renderBackground, 150);
+      });
+
+      // wait for rough.js to load
+      if (window.rough) {
+        renderBackground();
+      } else {
+        window.addEventListener('load', renderBackground);
+      }
+    })();
+  </script>
 
     <div class="layout">
     <main class="content">

@@ -23,6 +23,13 @@ social_links:
 
 # 网站色彩主题配置
 theme:
+  # 背景模式配置：
+  # "solid" - 纯色背景（默认），不渲染任何图案，此时仅使用 "bg" 属性的颜色
+  # "sketch" - 数学手写草稿背景（使用 rough.js 动态绘制裤子图和庞加莱圆盘测地线）
+  # "image" - 自定义图片背景（使用 "background_image" 的链接铺满整个背景并应用相应的透明渐变遮罩以保障阅读）
+  background_mode: "sketch"
+  background_image: "https://example.com/your-image.jpg" # 仅在 background_mode 为 "image" 时生效
+
   bg:         "#FAF9F5"                     # 页面背景色
   bg-card:    "#FFFFFF"                     # 卡片/区块背景色
   bg-code:    "#2D2D2D"                     # 代码块背景色

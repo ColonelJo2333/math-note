@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scribbles on Manifolds - Prototype</title>
+  <!-- Load rough.js for the subtle hand-drawn aesthetic -->
+  <script src="https://unpkg.com/roughjs@4.5.2/bundled/rough.js"></script>
+  <style>
+    /* 
+      # Visual Style & Vibe
+      Off-white/warm background typical of academic/physicist notebooks.
+    */
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fcfbf8; /* Warm off-white */
+      font-family: "Georgia", serif;
+      color: #222;
+      overflow-x: hidden;
+    }
+
+    /* 
+      # CSS Masking & Canvas Layering
+      Fixed in background, ignores pointer events.
+      Mask image creates a smooth transparent window in the center so text remains readable.
+    */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0; /* 修改: 防止被 body 背景覆盖 */
+      pointer-events: none;
+      
+      /* The mask gracefully fades out the drawings as they reach the center 30-40% of the screen */
+      -webkit-mask-image: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 55%, black 100%);
+      mask-image: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 55%, black 100%);
+    }
+
+    .content {
+      position: relative; /* 修改: 确保正文处于画布上方 */
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15vh 20px;
+      line-height: 1.8;
+      font-size: 1.15rem;
+    }
+
+    h1, h2, h3 {
+      font-weight: normal;
+      margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Full-screen fixed canvas for rough.js -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="content">
+    <h1>Scribbles on Manifolds</h1>
+    <p>
+      This is a prototype layout displaying the mathematical pencil sketches in the background. 
+      The core requirement is that these sketches remain out of the way of the primary text, ensuring perfect readability.
+    </p>
+    <h2>String Worldsheet (Pants Diagram)</h2>
+    <p>
+      In the top-left corner, you should see a subtle drawing. It outlines a closed string splitting into two representing string interactions, connected smoothly like an inverted pair of pants. Small dashed segments represent intermediate states.
+    </p>
+    <h2>Poincaré Disk (AdS Space)</h2>
+    <p>
+      In the bottom-right corner, we sweep orthogonal arcs mimicking geodesics to infinity. By modifying the roughness and opacity, multiple overlaps simulate layered graphite. Look closely at the asymptotes near the right and bottom edges.
+    </p>
+
+    <!-- Lots of dummy text to test scrolling -->
+    <p style="margin-top: 50vh;">
+      <em>Scroll test... The canvas must remain fixed.</em>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+    </p>
+    <p style="margin-top: 30vh;">
+      <em>Bottom testing area...</em> 
+      The content should float smoothly over the complex geodesics in the corner, though the dense parts of the drawings will primarily be beneath empty margins or transparentized heavily by the CSS mask.
+    </p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('bg-canvas');
+    let rc;
+
+    // Base rough.js formatting options
+    // Subtle, thin, and warm-grey.
+    const baseRoughOpts = {
+      stroke: 'rgba(50, 45, 40, 0.35)', // 稍微加深了透明度以确保可见
+      strokeWidth: 0.8,
+      roughness: 2.0,
+      bowing: 1.5,
+      disableMultiStroke: false
+    };
+
+    function drawPantsDiagram(w, h, ctx) {
+      // 1. Top-Left: String Worldsheet (Pants Diagram)
+      const scale = Math.min(w, h) * 0.15; // responsive relative sizing
+      
+      // Move slightly to the right from previous tight left corner
+      const cx = w * 0.10;  
+      const cy = h * 0.14;  
+
+      const topRadiusX = scale;
+      const topRadiusY = scale * 0.3;
+      
+      const bottomRadiusX = scale * 0.4;
+      const bottomRadiusY = scale * 0.15;
+      
+      const dy = scale * 1.8; // Vertical height of the interaction
+      const dx = scale * 0.65; // Horizontal spread of splitting strings
+
+      ctx.save();
+      // Translate to origin and tilt the pants diagram 30 degrees counter-clockwise
+      ctx.translate(cx, cy);
+      ctx.rotate(-30 * Math.PI / 180);
+
+      // Top closed string
+      rc.ellipse(0, 0, topRadiusX * 2, topRadiusY * 2, baseRoughOpts);
+
+      // Bottom two closed strings
+      rc.ellipse(-dx, dy, bottomRadiusX * 2, bottomRadiusY * 2, baseRoughOpts);
+      rc.ellipse(dx, dy, bottomRadiusX * 2, bottomRadiusY * 2, baseRoughOpts);
+
+      // Connecting manifold lines
+      // Left edge
+      rc.path(`M ${-topRadiusX} 0 C ${-topRadiusX} ${dy/2}, ${-dx - bottomRadiusX} ${dy/2}, ${-dx - bottomRadiusX} ${dy}`, baseRoughOpts);
+      // Right edge
+      rc.path(`M ${topRadiusX} 0 C ${topRadiusX} ${dy/2}, ${dx + bottomRadiusX} ${dy/2}, ${dx + bottomRadiusX} ${dy}`, baseRoughOpts);
+      // Crotch (center split logic)
+      rc.path(`M ${-dx + bottomRadiusX} ${dy} C ${-dx + bottomRadiusX} ${dy*0.5}, ${dx - bottomRadiusX} ${dy*0.5}, ${dx - bottomRadiusX} ${dy}`, baseRoughOpts);
+
+      // 2-3 faint dashed intermediate string states
+      const dashOpts = { 
+        ...baseRoughOpts, 
+        strokeLineDash: [6, 8], 
+        strokeWidth: 0.6,
+        roughness: 1.5
+      };
+
+      // Middle state 1 (figure-8ish rough path)
+      const midY = dy * 0.4;
+      rc.path(`M ${-dx*0.8} ${midY + 10} Q 0 ${midY - 20} ${dx*0.8} ${midY + 10}`, dashOpts);
+      
+      // Middle state 2 (closer to split)
+      const midY2 = dy * 0.7;
+      rc.path(`M ${-dx*1.1} ${midY2} Q ${-dx*0.5} ${midY2 - 15} ${-dx + bottomRadiusX*0.8} ${midY2 + 5}`, dashOpts);
+      rc.path(`M ${dx*1.1} ${midY2} Q ${dx*0.5} ${midY2 - 15} ${dx - bottomRadiusX*0.8} ${midY2 + 5}`, dashOpts);
+
+      // Mathematical labels (hand-written style)
+      ctx.font = "italic 1.6rem 'Georgia', serif";
+      ctx.fillStyle = "rgba(50, 45, 40, 0.4)";
+      ctx.fillText("Σ (g=0, h=3)", -scale*0.3, dy * 0.35); // Manifold name
+      ctx.fillText("γ₁", -dx - bottomRadiusX*1.3, dy + 25); // Lower string 1
+      ctx.fillText("γ₂", dx + bottomRadiusX*0.8, dy + 25); // Lower string 2
+      ctx.font = "italic 1.2rem 'Georgia', serif";
+      ctx.fillText("τ →", topRadiusX + 25, dy * 0.5); // Time flow arrow
+
+      ctx.restore();
+    }
+
+    function drawPoincareDisk(w, h, ctx) {
+      // 2. Bottom-Right: Poincaré Disk Geodesics
+      // Increased radius slightly Make it grander
+      const maxRadius = Math.min(w, h) * 0.65;  
+      
+      // Move center closer towards the bottom right corner, while keeping center visible
+      const cw = w - maxRadius * 0.4; 
+      const ch = h - maxRadius * 0.35;
+
+      ctx.save();
+      
+      // Draw the asymptotic boundary circle
+      rc.circle(cw, ch, maxRadius * 2, { 
+        ...baseRoughOpts, 
+        strokeWidth: 1.2, 
+        strokeLineDash: [6, 8],
+        roughness: 1.0 
+      });
+
+      // Add formulas BEFORE clipping relative to the new visible disk
+      ctx.font = "italic 1.6rem 'Georgia', serif";
+      ctx.fillStyle = "rgba(50, 45, 40, 0.4)";
+      // Reposition symbols to fit the new geometry
+      ctx.fillText("∂ℍ²", cw - maxRadius - 10, ch - 40); 
+      // Keep metric properly spaced in the corner
+      ctx.fillText("ds² = 4|dz|² / (1-|z|²)²", w - 280, h - 30); 
+
+      // Draw explicit center point to emphasize the disk structure
+      rc.circle(cw, ch, 8, { ...baseRoughOpts, strokeWidth: 1.5, fill: 'rgba(50, 45, 40, 0.2)', fillStyle: 'solid' });
+      ctx.font = "italic 1.2rem 'Georgia', serif";
+      ctx.fillText("0", cw + 15, ch + 15);
+
+      // Clip the coming geodesics so they don't leak out of the disk boundary
+      ctx.beginPath();
+      ctx.arc(cw, ch, maxRadius, 0, Math.PI * 2);
+      ctx.clip();
+
+      // Set line density exactly to 30
+      const numLines = 30; 
+
+      for (let i = 0; i < numLines; i++) {
+        // Distribute angles full 360 to naturally fill the now-visible disk area
+        const angle = Math.random() * Math.PI * 2;
+        
+        // Push the centers further out and make the bias smoother
+        const densityBias = Math.random(); 
+        const D = maxRadius * (1.05 + densityBias * 6); 
+        
+        const gCenterX = cw + Math.cos(angle) * D;
+        const gCenterY = ch + Math.sin(angle) * D;
+
+        // Geodesic radius theorem
+        const r = Math.sqrt(D * D - maxRadius * maxRadius);
+
+        // Customize stroke (cleaner mathematical look)
+        const currentOpts = {
+          ...baseRoughOpts,
+          strokeWidth: (Math.random() * 0.4) + 0.4, 
+          roughness: (Math.random() * 1.0) + 0.5, 
+          bowing: 1.0
+        };
+
+        rc.circle(gCenterX, gCenterY, r * 2, currentOpts);
+      }
+      
+      ctx.restore();
+    }
+
+    function renderBackground() {
+      // Sync canvas dimensions to window
+      // multiplying by devicePixelRatio for higher DPI screens if desired, keeping simple for prototype
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // Initialize rough canvas instance
+      rc = rough.canvas(canvas);
+
+      // Clear previous frame
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawPantsDiagram(canvas.width, canvas.height, ctx);
+      drawPoincareDisk(canvas.width, canvas.height, ctx);
+    }
+
+    // Debounced Resize handler
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(renderBackground, 150);
+    });
+
+    // Initial render
+    renderBackground();
+
+  </script>
+</body>
+</html>

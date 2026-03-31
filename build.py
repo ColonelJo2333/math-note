@@ -257,10 +257,23 @@ def render_template(template_str, title_val, page_content):
     theme_css = ""
     theme_conf = get_conf("theme", {})
     if theme_conf:
-        vars = [f"--{k}: {v};" for k, v in theme_conf.items()]
+        vars = [f"--{k}: {v};" for k, v in theme_conf.items() if k not in ["background_mode", "background_image"]]
         theme_css = "<style>:root {\n  " + "\n  ".join(vars) + "\n}</style>"
-    
+
+    # 澶勭悊鑳屾櫙灞傞€昏緫
+    bg_mode = get_conf("theme.background_mode", "solid")
+    bg_layer_html = ""
+    if bg_mode == "sketch":
+        bg_sketch_path = ROOT / "bg-sketch.html"
+        if bg_sketch_path.exists():
+            bg_layer_html = bg_sketch_path.read_text(encoding="utf-8")
+    elif bg_mode == "image":
+        bg_image_url = get_conf("theme.background_image", "")
+        if bg_image_url:
+            bg_layer_html = f'<div id="bg-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; background: url(\'{bg_image_url}\') center center / cover no-repeat; opacity: 0.15; -webkit-mask-image: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 55%, black 100%); mask-image: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.5) 55%, black 100%);"></div>'
+
     html = template_str.replace("{{page_content}}", page_content)
+    html = html.replace("{{background_layer}}", bg_layer_html)
     html = html.replace("</head>", f"{theme_css}\n</head>")
     html = html.replace("{{title}}", title_val)
     html = html.replace("{{site_title}}", site_title)
