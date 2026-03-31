@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>抽象代数学习笔记（一）</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false
+    });">
+  </script>
+</head>
+<body>
+
+    <div class="layout">
+    <main class="content">
+      <article>
+        <div class="post-header">
+          <h1>抽象代数学习笔记（一）</h1>
+          <div class="post-meta"><time>2026-03-28 16:07:14</time></div>
+        </div>
+        <blockquote>
+<p>本笔记基于李文威《代数学方法》</p>
+</blockquote>
+<h1 id="1-zfc-公理体系从虚无到万物">1. ZFC 公理体系：从虚无到万物</h1>
+<p>ZFC 的根本原则：<strong>集合只能从已有集合构造出来</strong>。不允许"凭空用一个性质收集所有满足它的东西"——那样会导致 Russell 悖论（考虑"所有不包含自身的集合的集合"）。</p>
+<h2 id="11-关键公理速览">1.1 关键公理速览</h2>
+<table>
+<thead>
+<tr>
+<th>公理</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>外延公理</strong></td>
+<td>集合由元素决定：$A = B \iff \forall x(x \in A \leftrightarrow x \in B)$</td>
+</tr>
+<tr>
+<td><strong>配对公理</strong></td>
+<td>从 $a, b$ 造出 ${a, b}$</td>
+</tr>
+<tr>
+<td><strong>并集公理</strong></td>
+<td>从 $A$ 造出 $\bigcup A$</td>
+</tr>
+<tr>
+<td><strong>幂集公理</strong></td>
+<td>从 $A$ 造出 $\mathcal{P}(A)$（所有子集的集合）</td>
+</tr>
+<tr>
+<td><strong>分离公理模式</strong></td>
+<td>从已有集合 $A$ 中筛选：${x \in A : \varphi(x)}$。必须先有 $A$，不能凭空筛</td>
+</tr>
+<tr>
+<td><strong>替换公理模式</strong></td>
+<td>集合 $A$ 在"函数式性质"下的像仍是集合。比分离更强</td>
+</tr>
+<tr>
+<td><strong>无穷公理</strong></td>
+<td>保证 $\mathbb{N}$ 作为一个完整集合的存在</td>
+</tr>
+<tr>
+<td><strong>正则公理</strong></td>
+<td>禁止 $x \in x$，保证 $\in$ 关系良基（无无穷下降链）</td>
+</tr>
+<tr>
+<td><strong>选择公理（AC）</strong></td>
+<td>任意一族非空集合存在选择函数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-建造链从-math21-到整个数学">1.2 建造链：从 $\emptyset$ 到整个数学</h2>
+<p>所有数学对象都编码为集合，从空集出发一层层构造：</p>
+<p>$$\emptyset ;\xrightarrow{\text{配对、并、无穷}}; \mathbb{N} ;\xrightarrow{\text{积、商}}; \mathbb{Z} ;\xrightarrow{\text{积、商}}; \mathbb{Q} ;\xrightarrow{\text{幂集}}; \mathbb{R} ;\xrightarrow{\text{幂集}}; \text{拓扑、流形……}$$</p>
+<p><strong>自然数（冯·诺依曼方案）：</strong></p>
+<p>$$0 := \emptyset, \quad 1 := {0} = {\emptyset}, \quad 2 := {0,1}, \quad n+1 := n \cup {n}$$</p>
+<p>每一步只用配对和并集。无穷公理将它们打包成集合 $\mathbb{N} = {0, 1, 2, \ldots}$。</p>
+<p><strong>整数 $\mathbb{Z}$：</strong> 在 $\mathbb{N} \times \mathbb{N}$ 上定义等价关系 $(a,b) \sim (c,d) \iff a+d = c+b$（直觉上 $(a,b)$ 代表 $a - b$），取商集。有序对用 Kuratowski 编码 $(a,b) := \{ \{a\}, \{a,b\} \}$。</p>
+<p><strong>有理数 $\mathbb{Q}$：</strong> 同样的套路，在 $\mathbb{Z} \times (\mathbb{Z}\setminus{0})$ 上取等价关系 $(a,b) \sim (c,d) \iff ad = cb$，取商集。</p>
+<p><strong>实数 $\mathbb{R}$：</strong> 两种经典方案：</p>
+<ul>
+<li><strong>Dedekind 切割</strong>：实数 = $\mathbb{Q}$ 的一个向下封闭、无最大元的子集，即 $\mathbb{R} \subseteq \mathcal{P}(\mathbb{Q})$。</li>
+<li><strong>Cauchy 序列</strong>的等价类：有理数 Cauchy 序列 $\subseteq \mathbb{Q}^{\mathbb{N}}$，再商掉。</li>
+</ul>
+<p><strong>更高层对象：</strong></p>
+<ul>
+<li>拓扑空间 $(X, \tau)$：$X$ 是集合，$\tau \subseteq \mathcal{P}(X)$ 满足拓扑公理。</li>
+<li>流形：拓扑空间 + 图册（一堆开集到 $\mathbb{R}^n$ 的同胚组成的集合）。</li>
+<li>群 $(G, \cdot)$：集合 $G$ + 二元运算 $\cdot,: G \times G \to G$（运算本身也是集合）。</li>
+</ul>
+<p><strong>每一步都只用 ZFC 公理从已有集合造新集合，没有任何自指。</strong></p>
+<h1 id="2-序结构">2. 序结构</h1>
+<h2 id="21-二元关系">2.1 二元关系</h2>
+<p>集合 $X$ 上的<strong>二元关系</strong> $R$ 就是 $X \times X$ 的子集。$(a,b) \in R$ 通常写作 $a,R,b$。</p>
+<h2 id="22-偏序partial-order">2.2 偏序（Partial Order）</h2>
+<p>$X$ 上的关系 $\leq$ 满足三条即为偏序：</p>
+<ol>
+<li><strong>自反性</strong>：$\forall a,; a \leq a$</li>
+<li><strong>反对称性</strong>：$a \leq b$ 且 $b \leq a \implies a = b$</li>
+<li><strong>传递性</strong>：$a \leq b$ 且 $b \leq c \implies a \leq c$</li>
+</ol>
+<p>关键词是"<strong>偏</strong>"——<strong>允许某些元素之间不可比较</strong>。</p>
+<p><strong>例 1</strong>：$(\mathcal{P}(S),, \subseteq)$，$S = {1,2,3}$。${1,2} \subseteq {1,2,3}$，可以比较；但 ${1,2}$ 与 ${2,3}$ 互不包含，不可比。</p>
+<p><strong>例 2</strong>：$(\mathbb{N},, \mid)$，整除关系。$2 \mid 6$，$3 \mid 6$，但 $2$ 与 $3$ 互不整除，不可比。</p>
+<h2 id="23-全序total-order--linear-order">2.3 全序（Total Order / Linear Order）</h2>
+<p>偏序 + 第四条：</p>
+<ol>
+<li><strong>完全性</strong>：$\forall a, b,; a \leq b$ 或 $b \leq a$</li>
+</ol>
+<p>任意两个元素都可以比较。$(\mathbb{R}, \leq)$、$(\mathbb{Z}, \leq)$、$(\mathbb{Q}, \leq)$ 都是全序。</p>
+<p>全序是偏序的特例。$(\mathcal{P}(S), \subseteq)$ 是偏序但不是全序。</p>
+<h2 id="24-良序well-order">2.4 良序（Well-Order）</h2>
+<p>全序 + 第五条：</p>
+<ol>
+<li><strong>良基性</strong>：$X$ 的<strong>每个非空子集</strong>都有最小元</li>
+</ol>
+<p>$(\mathbb{N}, \leq)$ 是良序：任何非空子集（如 ${5, 2, 100}$）都有最小元。</p>
+<p>$(\mathbb{Z}, \leq)$ <strong>不是</strong>良序：$\mathbb{Z}$ 本身没有最小元。$(\mathbb{R}, \leq)$ 同理。</p>
+<p><strong>良序定理</strong>（等价于选择公理）：任何集合都可以被赋予某种良序关系。但那个良序一般是非构造性的。</p>
+<p><strong>良序的意义</strong>：良序保证了归纳法/递归可以进行——不会出现无穷下降。</p>
+<h1 id="3-序数ordinals">3. 序数（Ordinals）</h1>
+<h2 id="31-动机">3.1 动机</h2>
+<p>良序集有很多，但很多在结构上同构（存在保序双射）。序数就是给每一类同构的良序集选一个<strong>标准代表</strong>。</p>
+<h2 id="32-冯诺依曼构造">3.2 冯·诺依曼构造</h2>
+<p>一个集合 $\alpha$ 是序数，当且仅当：</p>
+<ul>
+<li>$\alpha$ 关于 $\in$ 是良序的；</li>
+<li>$\alpha$ 是传递集（$x \in \alpha \implies x \subseteq \alpha$）。</li>
+</ul>
+<p>效果：每个序数恰好等于比它小的所有序数的集合，$\alpha = {\beta : \beta < \alpha}$，其中 $<$ 就是 $\in$。</p>
+<p><strong>有限序数</strong> = 自然数：$0 = \emptyset,; 1 = {0},; 2 = {0,1},; \ldots$</p>
+<p><strong>第一个无穷序数</strong>：$\omega = {0, 1, 2, \ldots} = \mathbb{N}$</p>
+<p><strong>继续往上</strong>：</p>
+<p>$$\omega + 1 = {0,1,2,\ldots,\omega}, \quad \omega + 2, \quad \ldots, \quad \omega \cdot 2, \quad \ldots, \quad \omega^2, \quad \ldots, \quad \omega^\omega, \quad \ldots$$</p>
+<h2 id="33-两类非零序数">3.3 两类非零序数</h2>
+<ul>
+<li><strong>后继序数</strong>：$\alpha + 1 = \alpha \cup {\alpha}$，有直接前驱。如 $1, 2, \omega+1, \omega+2$。</li>
+<li><strong>极限序数</strong>：无直接前驱，是所有更小序数的上确界。如 $\omega,; \omega \cdot 2,; \omega^2$。</li>
+</ul>
+<p>这个分类直接决定超穷递归的结构。</p>
+<h2 id="34-关键性质">3.4 关键性质</h2>
+<p>任意两个序数可比：$\alpha \in \beta$、$\alpha = \beta$、$\beta \in \alpha$ 三者恰有一个成立。序数全体按 $\in$ 构成良序，但序数全体本身不是集合（是真类）。</p>
+<h1 id="4-超穷递归与-zorn-引理">4. 超穷递归与 Zorn 引理</h1>
+<h2 id="41-超穷归纳">4.1 超穷归纳</h2>
+<p>将自然数归纳推广到所有序数。要证 $P(\alpha)$ 对所有序数成立，需处理三种情况：</p>
+<ol>
+<li><strong>零</strong>：证 $P(0)$。</li>
+<li><strong>后继步</strong>：$P(\alpha) \Rightarrow P(\alpha+1)$。</li>
+<li><strong>极限步</strong>（新增）：若 $\lambda$ 是极限序数，证 $(\forall \beta < \lambda,; P(\beta)) \Rightarrow P(\lambda)$。</li>
+</ol>
+<p>极限步的直觉：极限序数没有直接前驱，必须论证"之前所有步骤加在一起搞定了 $\lambda$"。</p>
+<h2 id="42-超穷递归">4.2 超穷递归</h2>
+<p>不是证性质，而是<strong>定义函数</strong>。在所有序数上定义 $F$：</p>
+<ol>
+<li>规定 $F(0)$。</li>
+<li>用 $F(\alpha)$ 定义 $F(\alpha+1)$。</li>
+<li>极限步：用 ${F(\beta) : \beta < \lambda}$ 定义 $F(\lambda)$。</li>
+</ol>
+<p>超穷递归定理保证 $F$ 存在且唯一。</p>
+<p><strong>例</strong>：序数加法。固定 $\alpha$，对 $\beta$ 递归定义 $\alpha + \beta$：</p>
+<ul>
+<li>$\alpha + 0 = \alpha$</li>
+<li>$\alpha + (\beta+1) = (\alpha + \beta) + 1$</li>
+<li>$\alpha + \lambda = \sup{\alpha + \beta : \beta < \lambda}$（极限步）</li>
+</ul>
+<h2 id="43-zorn-引理核心工具">4.3 Zorn 引理（核心工具）</h2>
+<p><strong>陈述</strong>：设 $(X, \leq)$ 是偏序集。若 $X$ 中每条链（全序子集）都有上界，则 $X$ 有极大元。</p>
+<p>等价于选择公理，等价于良序定理。等价性的证明依赖超穷递归。</p>
+<p><strong>代数中的典型应用</strong>（固定模板：定义偏序集 → 验证链有上界 → 调用 Zorn 引理得极大元）：</p>
+<ul>
+<li>每个环有极大理想</li>
+<li>每个向量空间有基</li>
+<li>每个滤子可扩张为超滤子</li>
+</ul>
+<hr />
+<h1 id="5-基数cardinals">5. 基数（Cardinals）</h1>
+<h2 id="51-幂集">5.1 幂集</h2>
+<p>$A$ 的幂集 $\mathcal{P}(A)$ = $A$ 的所有子集构成的集合。</p>
+<p>$$\mathcal{P}({1,2}) = {\emptyset, {1}, {2}, {1,2}}$$</p>
+<p>若 $|A| = n$，则 $|\mathcal{P}(A)| = 2^n$（每个元素选或不选，独立决定）。</p>
+<h2 id="52-基数-vs-序数">5.2 基数 vs 序数</h2>
+<p>序数关心<strong>排列方式</strong>（良序结构），基数关心<strong>大小</strong>（等势类）。</p>
+<p>两个集合<strong>等势</strong> $\iff$ 存在双射。基数 = 与之等势的最小序数。</p>
+<p>$\omega$ 和 $\omega+1$ 是不同序数，但等势（基数相同，都是 $\aleph_0$）。同理 $\omega \cdot 2$、$\omega^2$ 的基数都是 $\aleph_0$。</p>
+<h2 id="53-cantor-定理">5.3 Cantor 定理</h2>
+<p><strong>陈述</strong>：对任意集合 $A$，不存在满射 $A \to \mathcal{P}(A)$。因此 $|A| < |\mathcal{P}(A)|$。</p>
+<p><strong>证明（对角线论证）</strong>：</p>
+<p>假设 $f: A \to \mathcal{P}(A)$ 是满射。构造</p>
+<p>$$D = {a \in A : a \notin f(a)}$$</p>
+<p>$D \in \mathcal{P}(A)$，所以存在 $d \in A$ 使 $f(d) = D$。但：</p>
+<ul>
+<li>$d \in D \implies d \notin f(d) = D$，矛盾。</li>
+<li>$d \notin D \implies d \in f(d) = D$，矛盾。</li>
+</ul>
+<p>注意：$D$ 的构造依赖于 $f$。无论怎么修改 $f$，$D$ 也随之改变，总存在一个不在像中的子集。对角线论证攻击的是<strong>任意</strong>的 $f$。</p>
+<p><strong>后果</strong>：</p>
+<p>$$\aleph_0 < 2^{\aleph_0} < 2^{2^{\aleph_0}} < \cdots$$</p>
+<p>无穷有不可穷尽的层级。不存在"所有集合的集合"。</p>
+<h2 id="54-无穷基数记号与连续统假设">5.4 无穷基数记号与连续统假设</h2>
+<ul>
+<li>$\aleph_0 = |\mathbb{N}|$（最小无穷基数）</li>
+<li>$\aleph_1$ = 下一个无穷基数，$\aleph_2, \aleph_3, \ldots$</li>
+<li>$2^{\aleph_0} = |\mathcal{P}(\mathbb{N})| = |\mathbb{R}|$</li>
+<li><strong>连续统假设（CH）</strong>：$2^{\aleph_0} = \aleph_1$（$\mathbb{N}$ 和 $\mathbb{R}$ 之间无中间大小）。CH 在 ZFC 中独立（Gödel 1940, Cohen 1963）。</li>
+</ul>
+<h2 id="55-无穷基数算术">5.5 无穷基数算术</h2>
+<p>$$\aleph_0 + \aleph_0 = \aleph_0, \qquad \aleph_0 \cdot \aleph_0 = \aleph_0$$</p>
+<p>一般地，无穷基数 $\kappa$ 满足 $\kappa + \kappa = \kappa \cdot \kappa = \kappa$（大的吃小的）。</p>
+<p>但幂运算不同：$2^\kappa > \kappa$（Cantor 定理），幂运算能跳到更大的基数。</p>
+<hr />
+<h1 id="6-grothendieck-宇宙">6. Grothendieck 宇宙</h1>
+<h2 id="61-问题">6.1 问题</h2>
+<p>范畴论需要谈论"所有群的范畴 $\mathbf{Grp}$"、"所有集合的范畴 $\mathbf{Set}$"，但"所有XX"在 ZFC 中太大，不构成集合（是真类）。需要一种机制使这些操作合法化。</p>
+<h2 id="62-定义">6.2 定义</h2>
+<p>集合 $\mathscr{U}$ 是 <strong>Grothendieck 宇宙</strong>，若满足：</p>
+<ol>
+<li><strong>传递性</strong>：$x \in \mathscr{U}$ 且 $y \in x \implies y \in \mathscr{U}$</li>
+<li><strong>配对封闭</strong>：$x, y \in \mathscr{U} \implies {x, y} \in \mathscr{U}$</li>
+<li><strong>幂集封闭</strong>：$x \in \mathscr{U} \implies \mathcal{P}(x) \in \mathscr{U}$</li>
+<li><strong>族的并集封闭</strong>：$I \in \mathscr{U}$，$(x_i)\_{i \in I}$ 各 $x_i \in \mathscr{U}$，则 $\bigcup_{i \in I} x_i \in \mathscr{U}$</li>
+</ol>
+<p>直觉：$\mathscr{U}$ 是一个自给自足的小世界，在内部可以做所有 ZFC 操作而不跑出去。</p>
+<p><strong>推论</strong>：$\emptyset \in \mathscr{U}$；有序对 $(x,y) \in \mathscr{U}$；笛卡尔积 $x \times y \in \mathscr{U}$；函数集 $x^y \in \mathscr{U}$；子集仍在 $\mathscr{U}$ 中。</p>
+<h2 id="63-幂集封闭为什么不矛盾">6.3 幂集封闭为什么不矛盾</h2>
+<p>幂集封闭说的是 $x \in \mathscr{U} \implies \mathcal{P}(x) \in \mathscr{U}$，取幂集的对象是 $\mathscr{U}$ 的<strong>元素</strong>，不是 $\mathscr{U}$ 本身。</p>
+<ul>
+<li>正则公理保证 $\mathscr{U} \notin \mathscr{U}$（ZFC 中任何集合都不是自身的元素），所以幂集封闭条件不适用于 $\mathscr{U}$ 本身。</li>
+<li>$\mathcal{P}(\mathscr{U})$ 确实比 $\mathscr{U}$ 大（Cantor 定理），但这不矛盾——$\mathscr{U}$ 对内部元素封闭，不对自身封闭。</li>
+<li>技术上：$\mathscr{U}$ 的大小是不可达基数 $\kappa$，内部元素的基数 $< \kappa$，不可达性保证 $2^\lambda < \kappa$（$\forall \lambda < \kappa$），所以 $\mathcal{P}(x)$ 仍装得进 $\mathscr{U}$。</li>
+</ul>
+<h2 id="64-大小术语">6.4 大小术语</h2>
+<p>固定宇宙 $\mathscr{U}$：</p>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>$\mathscr{U}$-小集合</strong></td>
+<td>$x \in \mathscr{U}$</td>
+</tr>
+<tr>
+<td><strong>$\mathscr{U}$-大集合</strong></td>
+<td>$x \notin \mathscr{U}$（如 $\mathscr{U}$ 本身）</td>
+</tr>
+<tr>
+<td><strong>小范畴</strong></td>
+<td>对象集和态射集都 $\mathscr{U}$-小</td>
+</tr>
+<tr>
+<td><strong>局部小范畴</strong></td>
+<td>每个 $\mathrm{Hom}(A,B)$ 是 $\mathscr{U}$-小，但对象全体可以不是</td>
+</tr>
+</tbody>
+</table>
+<p>$\mathbf{Set}$、$\mathbf{Grp}$、$\mathbf{Top}$ 通常是局部小的。</p>
+<h2 id="65-宇宙公理">6.5 宇宙公理</h2>
+<p>包含 $\mathbb{N}$ 的 Grothendieck 宇宙在 ZFC 中无法证明存在，需要额外公理：</p>
+<blockquote>
+<p><strong>宇宙公理</strong>：$\forall x,; \exists, \mathscr{U}$（Grothendieck 宇宙）使得 $x \in \mathscr{U}$。</p>
+</blockquote>
+<p>等价于存在足够多的不可达基数。超出 ZFC，但数学界普遍认为不引入矛盾。</p>
+<h2 id="66-实际使用">6.6 实际使用</h2>
+<ol>
+<li>假设存在一个足够大的 $\mathscr{U}$，包含日常数学对象。</li>
+<li>"所有群的范畴" = "所有 $\mathscr{U}$-小群的范畴"。</li>
+<li>如果需要再往上一层，换更大的宇宙 $\mathscr{U}' \ni \mathscr{U}$。</li>
+</ol>
+<p>如同嵌套的游乐场：$\mathscr{U}$ 内随便操作，溢出到 $\mathscr{U}'$ 中仍然合法。</p>
+<hr />
+<h1 id="7-附录nbg-集合论另一种方案">7. 附录：NBG 集合论（另一种方案）</h1>
+<p>NBG 不引入大集合，而是引入新概念层级：<strong>集合</strong>和<strong>类</strong>。</p>
+<ul>
+<li>每个集合都是类，但有些类不是集合（<strong>真类</strong>）。</li>
+<li>"所有集合的类"、"所有群的类"是合法的真类。</li>
+<li>限制：<strong>真类不能做其他类的元素</strong>——这是防止悖论的防火墙。</li>
+</ul>
+<p><strong>对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Grothendieck 宇宙</th>
+<th>NBG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语言</td>
+<td>仍在 ZFC 内</td>
+<td>扩展 ZFC，增加"类"的概念</td>
+</tr>
+<tr>
+<td>额外公理</td>
+<td>需要（宇宙公理 / 不可达基数）</td>
+<td>不需要（ZFC 的保守扩张）</td>
+</tr>
+<tr>
+<td>"所有群的范畴"</td>
+<td>"所有 $\mathscr{U}$-小群的范畴"</td>
+<td>直接以真类为对象类</td>
+</tr>
+<tr>
+<td>层次嵌套</td>
+<td>灵活（换更大的宇宙）</td>
+<td>受限（真类不能做元素）</td>
+</tr>
+<tr>
+<td>传统</td>
+<td>Grothendieck 学派（SGA, 代数几何）</td>
+<td>Mac Lane 等范畴论教材</td>
+</tr>
+<tr>
+<td>实际上绝大多数定理不依赖于选哪种方案。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="8-qa">8. Q&amp;A</h1>
+<p><strong>Q1：为什么 $\omega$ 和 $\omega + 1$ 等势？后者明明多了一个元素。</strong></p>
+<blockquote>
+<p>希尔伯特旅馆的思路。定义 $f: \omega + 1 \to \omega$：$f(\omega) = 0$，$f(n) = n+1$。每个人往后挪一位，$0$ 号房间腾给新来的 $\omega$。这是双射。无穷集合可以和自己的真子集等势——这甚至可以作为无穷集合的定义（Dedekind 的定义）。同理 $\omega \cdot 2$（偶奇交错）和 $\omega^2$（对角线枚举）都与 $\omega$ 等势。</p>
+</blockquote>
+<p><strong>Q2：幂集 $\mathcal{P}(A)$ 是什么？为什么 $|\mathcal{P}(A)| = 2^{|A|}$？</strong></p>
+<blockquote>
+<p>$\mathcal{P}(A)$ 是 $A$ 的所有子集构成的集合。对有限集 $|A| = n$，构造子集等价于对每个元素做"选/不选"的二元决定，$n$ 个独立决定给出 $2^n$ 种组合。$2^{\aleph_0} = |\mathcal{P}(\mathbb{N})|$ 是这个记号从有限到无穷的推广。</p>
+</blockquote>
+<p><strong>Q3：Cantor 定理的对角线论证中，修改 $f$ 来"堵住" $D$ 不是就行了吗？</strong></p>
+<blockquote>
+<p>不行。$D$ 的定义依赖于 $f$：$D = {a \in A : a \notin f(a)}$。你修改 $f$，$D$ 也随之改变，总会产生一个新的不在像中的子集。对角线论证攻击的不是某一个特定的 $f$，而是<strong>任意</strong>的 $f$。</p>
+</blockquote>
+<p><strong>Q4：Grothendieck 宇宙要求幂集封闭，但 Cantor 定理说幂集会变大，这不矛盾吗？</strong></p>
+<blockquote>
+<p>不矛盾。幂集封闭说的是 $x \in \mathscr{U} \implies \mathcal{P}(x) \in \mathscr{U}$，只对 $\mathscr{U}$ 的<strong>元素</strong>取幂集。正则公理保证 $\mathscr{U} \notin \mathscr{U}$，所以条件不适用于 $\mathscr{U}$ 本身。$\mathscr{U}$ 的大小是不可达基数 $\kappa$，内部元素基数 $< \kappa$，不可达性保证 $2^\lambda < \kappa$（$\forall \lambda < \kappa$），所以内部的幂集操作不会溢出。</p>
+</blockquote>
+<p><strong>Q5：为什么 $\mathscr{U} \notin \mathscr{U}$？</strong></p>
+<blockquote>
+<p>这是 ZFC 正则公理的直接推论，与 Grothendieck 宇宙无关。正则公理：每个非空集合 $A$ 包含一个元素 $a$ 使得 $a \cap A = \emptyset$。取 $A = {x}$，若 $x \in x$，则 $x$ 是 $A$ 唯一的元素但 $x \cap A \ni x \neq \emptyset$，违反正则公理。因此 ZFC 中任何集合都不是自身的元素。</p>
+</blockquote>
+<p><strong>Q6：对物理学生来说，这章真正需要记住什么？</strong></p>
+<blockquote>
+<p>三件事：</p>
+<ol>
+<li><strong>Zorn 引理</strong>的陈述和使用模板（定义偏序 → 验证链有上界 → 得极大元）。</li>
+<li><strong>Cantor 定理</strong>：集合有不同层级的无穷大小，$|A| < |\mathcal{P}(A)|$。</li>
+<li><strong>Grothendieck 宇宙 / size 问题</strong>：后面遇到"小范畴"、"局部小"等术语时，知道它们指的是"在某个固定宇宙 $\mathscr{U}$ 内"，具体的集合论技术不影响代数计算。</li>
+</ol>
+</blockquote>
+      </article>
+    </main>
+
+    <nav class="toc" id="toc">
+      <div class="toc-title">目录</div>
+      <a class="toc-item toc-level-0" href="#11-关键公理速览">1.1 关键公理速览</a>
+<a class="toc-item toc-level-0" href="#12-建造链从-math21-到整个数学">1.2 建造链：从 $\emptyset$ 到整个数学</a>
+<a class="toc-item toc-level-0" href="#21-二元关系">2.1 二元关系</a>
+<a class="toc-item toc-level-0" href="#22-偏序partial-order">2.2 偏序（Partial Order）</a>
+<a class="toc-item toc-level-0" href="#23-全序total-order--linear-order">2.3 全序（Total Order / Linear Order）</a>
+<a class="toc-item toc-level-0" href="#24-良序well-order">2.4 良序（Well-Order）</a>
+<a class="toc-item toc-level-0" href="#31-动机">3.1 动机</a>
+<a class="toc-item toc-level-0" href="#32-冯诺依曼构造">3.2 冯·诺依曼构造</a>
+<a class="toc-item toc-level-0" href="#33-两类非零序数">3.3 两类非零序数</a>
+<a class="toc-item toc-level-0" href="#34-关键性质">3.4 关键性质</a>
+<a class="toc-item toc-level-0" href="#41-超穷归纳">4.1 超穷归纳</a>
+<a class="toc-item toc-level-0" href="#42-超穷递归">4.2 超穷递归</a>
+<a class="toc-item toc-level-0" href="#43-zorn-引理核心工具">4.3 Zorn 引理（核心工具）</a>
+<a class="toc-item toc-level-0" href="#51-幂集">5.1 幂集</a>
+<a class="toc-item toc-level-0" href="#52-基数-vs-序数">5.2 基数 vs 序数</a>
+<a class="toc-item toc-level-0" href="#53-cantor-定理">5.3 Cantor 定理</a>
+<a class="toc-item toc-level-0" href="#54-无穷基数记号与连续统假设">5.4 无穷基数记号与连续统假设</a>
+<a class="toc-item toc-level-0" href="#55-无穷基数算术">5.5 无穷基数算术</a>
+<a class="toc-item toc-level-0" href="#61-问题">6.1 问题</a>
+<a class="toc-item toc-level-0" href="#62-定义">6.2 定义</a>
+<a class="toc-item toc-level-0" href="#63-幂集封闭为什么不矛盾">6.3 幂集封闭为什么不矛盾</a>
+<a class="toc-item toc-level-0" href="#64-大小术语">6.4 大小术语</a>
+<a class="toc-item toc-level-0" href="#65-宇宙公理">6.5 宇宙公理</a>
+<a class="toc-item toc-level-0" href="#66-实际使用">6.6 实际使用</a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <a href="index.html">流形上的涂鸦</a><span class="footer-sep">,</span>
+    <span class="footer-copy">&copy; 2025</span>
+    <a href="https://chenhuhuhu.space">ChenHu</a>
+  </footer>
+
+  <script>
+  // 目录滚动高亮
+  (function() {
+    var toc = document.getElementById('toc');
+    if (!toc || !toc.querySelector('.toc-item')) {
+      if (toc) toc.style.display = 'none';
+      return;
+    }
+    var links = toc.querySelectorAll('.toc-item');
+    var ids = Array.from(links).map(function(a) {
+      return document.getElementById(a.getAttribute('href').slice(1));
+    }).filter(Boolean);
+
+    function highlight() {
+      var scrollY = window.scrollY + 80;
+      var current = null;
+      for (var i = 0; i < ids.length; i++) {
+        if (ids[i].offsetTop <= scrollY) current = i;
+      }
+      links.forEach(function(a, i) {
+        a.classList.toggle('active', i === current);
+      });
+    }
+    window.addEventListener('scroll', highlight, { passive: true });
+    highlight();
+  })();
+
+  // 首页分类筛选
+  (function() {
+    var nav = document.querySelector('.category-nav');
+    if (!nav) return;
+    nav.addEventListener('click', function(e) {
+      if (e.target.tagName !== 'A') return;
+      e.preventDefault();
+      var cat = e.target.dataset.cat;
+      nav.querySelectorAll('a').forEach(function(a) {
+        a.classList.toggle('active', a.dataset.cat === cat);
+      });
+      // 显示/隐藏时间线条目
+      document.querySelectorAll('.timeline-item').forEach(function(item) {
+        item.style.display = (!cat || item.dataset.cat === cat) ? '' : 'none';
+      });
+      // 显示/隐藏年份标题
+      document.querySelectorAll('.timeline-year').forEach(function(yr) {
+        var next = yr.nextElementSibling;
+        var hasVisible = false;
+        while (next && !next.classList.contains('timeline-year')) {
+          if (next.style.display !== 'none') hasVisible = true;
+          next = next.nextElementSibling;
+        }
+        yr.style.display = hasVisible ? '' : 'none';
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

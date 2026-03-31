@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>流形上的涂鸦</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false
+    });">
+  </script>
+</head>
+<body>
+
+    <div class="hero">
+    <h1 class="hero-title">流形上的涂鸦</h1>
+    <p class="hero-subtitle">Scribbles on Manifolds — 一些数学笔记与思考</p>
+    <div class="hero-links">
+      <a class="blog-link" href="https://chenhuhuhu.space"><svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 主博客</a>
+      <span class="sep">/</span>
+      <a href="https://www.pixiv.net/users/79490957" target="_blank"><svg viewBox="0 0 24 24"><path d="M4.94 2.04c2.1-.22 4.92.22 6.53 2.04 2.7-.48 5.12.86 6.13 3.15 1.06 2.39.66 5.32-1.15 7.2-1.25 1.3-3.04 1.92-4.83 1.87-.34 1.74-.64 3.49-.97 5.24H7.87l.78-4.16c-1.56-.74-2.56-2.35-2.6-4.06a4.7 4.7 0 012.36-4.33c-.28-1.27-.52-2.55-.79-3.82-.73 0-1.46-.01-2.19-.03v-3.1h.01zm5.19 5.7a2.6 2.6 0 00-1.7 2.8c.12.95.84 1.77 1.77 1.97.44-.76.86-1.53 1.3-2.3-.5-.77-.94-1.58-1.37-2.4v-.07zm3.14-.14c-.56.93-1.08 1.87-1.6 2.82.65.67 1.27 1.38 1.95 2.02.94-.5 1.6-1.5 1.65-2.56.07-1.12-.74-2.18-1.83-2.3l-.17.02z"/></svg> Pixiv</a>
+      <span class="sep">/</span>
+      <a href="https://github.com/ColonelJo2333" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 00-3.8 23.38c.6.12.83-.26.83-.57L9 20.86c-3.37.74-4.08-1.63-4.08-1.63-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.73.08-.73 1.21.08 1.85 1.24 1.85 1.24 1.08 1.84 2.82 1.31 3.51 1 .11-.78.42-1.31.76-1.61-2.69-.31-5.52-1.35-5.52-6a4.68 4.68 0 011.25-3.25 4.35 4.35 0 01.12-3.21s1.02-.33 3.34 1.24a11.52 11.52 0 016.06 0c2.31-1.57 3.33-1.24 3.33-1.24a4.35 4.35 0 01.12 3.21 4.68 4.68 0 011.25 3.25c0 4.66-2.84 5.69-5.54 5.99.44.37.82 1.12.82 2.26l-.01 3.35c0 .32.22.7.84.57A12 12 0 0012 .3"/></svg> GitHub</a>
+      <span class="sep">/</span>
+      <a href="https://space.bilibili.com/506403405" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.81 4.47c.08 0 .16-.02.23-.06.74-.4 1.38-.96 1.87-1.67a.26.26 0 00-.23-.38h-.01a.27.27 0 00-.21.11c-.45.63-1.02 1.15-1.68 1.52a.27.27 0 00.03.48zm-11.6 0a.27.27 0 00.03-.48A5.58 5.58 0 014.56 2.47.27.27 0 004.33 2.36h-.01a.27.27 0 00-.23.38c.49.71 1.13 1.27 1.87 1.67a.28.28 0 00.25.06zM22 8.12a2 2 0 00-2-2H4a2 2 0 00-2 2v9.5a2 2 0 002 2h16a2 2 0 002-2v-9.5zm-1.5.5v8.5a1 1 0 01-1 1H4.5a1 1 0 01-1-1v-8.5a1 1 0 011-1h15a1 1 0 011 1zM10 13.25a.74.74 0 01-.75.75H7.5a.75.75 0 010-1.5h1.75c.41 0 .75.34.75.75zm7.25 0a.74.74 0 01-.75.75H14.75a.75.75 0 010-1.5h1.75c.41 0 .75.34.75.75z"/></svg> Bilibili</a>
+    </div>
+  </div>
+
+  <div class="home-body">
+    <aside class="sidebar-timeline">
+      <div class="tl-year">2026</div>
+      <div class="tl-dot">03-30</div>
+      <div class="tl-dot">03-28 16:07:14</div>
+      <div class="tl-dot">03-28</div>
+      <div class="tl-year">2025</div>
+      <div class="tl-dot">11-27 12:54:17</div>
+      <div class="tl-dot">11-07 10:12:22</div>
+      <div class="tl-dot">11-05 16:13:49</div>
+      <div class="tl-dot">11-01 10:06:59</div>
+    </aside>
+    <div class="post-entries">
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="measure-theory-basics.html">测度论基础笔记</a></div>
+        <div class="post-entry-meta"><span>2026-03-30</span><span class="post-entry-cat">实分析</span></div>
+        <div class="post-entry-abstract">σ-代数、Borel 集与 Lebesgue 测度的基本定义和性质。</div>
+        <div class="post-entry-excerpt">设  为非空集合。 上的一个 σ-代数（σ-algebra） 是  的子集族，满足： 1. 2. 若 ，则 3. 若 ，则 称  为可测空间。 拓扑空间  上由…</div>
+        <a class="post-entry-more" href="measure-theory-basics.html">Read More</a>
+      </div>
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="抽象代数学习笔记（一）：集合论.html">抽象代数学习笔记（一）</a></div>
+        <div class="post-entry-meta"><span>2026-03-28 16:07:14</span></div>
+        <div class="post-entry-excerpt">本笔记基于李文威《代数学方法》 ZFC 的根本原则：集合只能从已有集合构造出来。不允许"凭空用一个性质收集所有满足它的东西"——那样会导致 Russell 悖论…</div>
+        <a class="post-entry-more" href="抽象代数学习笔记（一）：集合论.html">Read More</a>
+      </div>
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="fourier-transform.html">Fourier 变换速查</a></div>
+        <div class="post-entry-meta"><span>2026-03-28</span><span class="post-entry-cat">分析</span></div>
+        <div class="post-entry-abstract">Fourier 变换的核心定义、基本性质与卷积定理速查。</div>
+        <div class="post-entry-excerpt">设 ，其 Fourier 变换定义为： ，其中 。 - 时域平移： - 频域调制： 若 ，则： 特别地，（能量守恒）。 这是 Fourier 分析最强大的结论之…</div>
+        <a class="post-entry-more" href="fourier-transform.html">Read More</a>
+      </div>
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="Kadath官方文档个人汉化.html">Kadath官方文档个人汉化</a></div>
+        <div class="post-entry-meta"><span>2025-11-27 12:54:17</span></div>
+        <div class="post-entry-excerpt">这是我对Kadath官网https://kadath.obspm.fr/的个人汉化，包含安装说明和十几个tutorials，仅供参考。 由于译者水平不足，部分觉…</div>
+        <a class="post-entry-more" href="Kadath官方文档个人汉化.html">Read More</a>
+      </div>
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="量子力学学习笔记第一章：希尔伯特空间初步.html">量子力学学习笔记第一章：希尔伯特空间初步</a></div>
+        <div class="post-entry-meta"><span>2025-11-07 10:12:22</span></div>
+        <div class="post-entry-excerpt">此笔记旨在用我的个人理解复盘量子力学的知识体系，并非标准教科书，可能会有不少错误。 ~~傻逼hexo解析不了我的aligned😅~~ 以及可能需要关于拓扑空间、…</div>
+        <a class="post-entry-more" href="量子力学学习笔记第一章：希尔伯特空间初步.html">Read More</a>
+      </div>
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="李群李代数学习笔记（一）：从群到群.html">李群李代数学习笔记（一）：从群到群</a></div>
+        <div class="post-entry-meta"><span>2025-11-05 16:13:49</span></div>
+        <div class="post-entry-excerpt">1. 李群 ： 流形 + 群。左平移 。左不变矢量场 。 2. 李代数 ：矢量空间 3. 单参子群 ：  曲线  若满足  则称  为  的单参数子群 重要关系…</div>
+        <a class="post-entry-more" href="李群李代数学习笔记（一）：从群到群.html">Read More</a>
+      </div>
+      <div class="post-entry">
+        <div class="post-entry-title"><a href="数学物理方法复习笔记之复变函数.html">数学物理方法复习笔记之复变函数</a></div>
+        <div class="post-entry-meta"><span>2025-11-01 10:06:59</span></div>
+        <div class="post-entry-excerpt">虽然这一节其实没啥好说的但是出于兴趣我还是找了个自己很满意的数学定义。 一个复数  是一个有序实数对 ，其中 。 复数的集合记作 ，即 。 在此基础上，我们定义…</div>
+        <a class="post-entry-more" href="数学物理方法复习笔记之复变函数.html">Read More</a>
+      </div>
+    </div>
+    <aside class="sidebar-cats">
+      <div class="sidebar-cats-title">分类</div>
+      <a href="#">分析 <span class="cat-count">1</span></a>
+      <a href="#">实分析 <span class="cat-count">1</span></a>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <a href="index.html">流形上的涂鸦</a><span class="footer-sep">,</span>
+    <span class="footer-copy">&copy; 2025</span>
+    <a href="https://chenhuhuhu.space">ChenHu</a>
+  </footer>
+
+  <script>
+  // 目录滚动高亮
+  (function() {
+    var toc = document.getElementById('toc');
+    if (!toc || !toc.querySelector('.toc-item')) {
+      if (toc) toc.style.display = 'none';
+      return;
+    }
+    var links = toc.querySelectorAll('.toc-item');
+    var ids = Array.from(links).map(function(a) {
+      return document.getElementById(a.getAttribute('href').slice(1));
+    }).filter(Boolean);
+
+    function highlight() {
+      var scrollY = window.scrollY + 80;
+      var current = null;
+      for (var i = 0; i < ids.length; i++) {
+        if (ids[i].offsetTop <= scrollY) current = i;
+      }
+      links.forEach(function(a, i) {
+        a.classList.toggle('active', i === current);
+      });
+    }
+    window.addEventListener('scroll', highlight, { passive: true });
+    highlight();
+  })();
+
+  // 首页分类筛选
+  (function() {
+    var nav = document.querySelector('.category-nav');
+    if (!nav) return;
+    nav.addEventListener('click', function(e) {
+      if (e.target.tagName !== 'A') return;
+      e.preventDefault();
+      var cat = e.target.dataset.cat;
+      nav.querySelectorAll('a').forEach(function(a) {
+        a.classList.toggle('active', a.dataset.cat === cat);
+      });
+      // 显示/隐藏时间线条目
+      document.querySelectorAll('.timeline-item').forEach(function(item) {
+        item.style.display = (!cat || item.dataset.cat === cat) ? '' : 'none';
+      });
+      // 显示/隐藏年份标题
+      document.querySelectorAll('.timeline-year').forEach(function(yr) {
+        var next = yr.nextElementSibling;
+        var hasVisible = false;
+        while (next && !next.classList.contains('timeline-year')) {
+          if (next.style.display !== 'none') hasVisible = true;
+          next = next.nextElementSibling;
+        }
+        yr.style.display = hasVisible ? '' : 'none';
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
