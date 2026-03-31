@@ -1,0 +1,22 @@
+site:
+  title: "流形上的涂鸦"
+  subtitle: "Scribbles on Manifolds — 一些数学笔记与思考"
+  author: "ChenHu"
+  author_link: "https://chenhuhuhu.space"
+  # 网站图标 (请放置对应文件到 images 文件夹，如 /images/favicon.ico)
+  favicon: "/images/favicon.ico"
+
+# 社交媒体链接
+social_links:
+  - name: "主博客"
+    url: "https://chenhuhuhu.space"
+    icon: "blog"      # 可选值: blog, pixiv, github, bilibili
+  - name: "Pixiv"
+    url: "https://www.pixiv.net/users/79490957"
+    icon: "pixiv"
+  - name: "GitHub"
+    url: "https://github.com/ColonelJo2333"
+    icon: "github"
+  - name: "Bilibili"
+    url: "https://space.bilibili.com/506403405"
+    icon: "bilibili"

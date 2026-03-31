@@ -1,14 +1,9 @@
 ---
 title: Kadath官方文档个人汉化
-mathjax: true
-excerpt: 作为强大的谱方法偏微分方程求解器，Kadath的社区实在太小，中文社区几乎没有，所有这里提供一个官网的个人汉化，仅供参考
+abstract: 作为强大的谱方法偏微分方程求解器，Kadath的社区实在太小，中文社区几乎没有，所有这里提供一个官网的个人汉化，仅供参考
 date: 2025-11-27 12:54:17
-tags:
-  - 数学
-  - 物理
-  - 工具
-categories: 物理
-cover: /images/cover/说吧.jpg
+category: 物理
+author: ChenHu
 ---
 > 这是我对[Kadath官网](https://kadath.obspm.fr/)的个人汉化，包含安装说明和十几个tutorials，仅供参考。
 

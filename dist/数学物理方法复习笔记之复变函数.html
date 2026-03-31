@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>数学物理方法复习笔记之复变函数</title>
+  <link rel="icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="style.css">
   <!-- KaTeX -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
@@ -25,7 +26,8 @@
       <article>
         <div class="post-header">
           <h1>数学物理方法复习笔记之复变函数</h1>
-          <div class="post-meta"><time>2025-11-01 10:06:59</time></div>
+          <div class="post-meta"><span class="author">ChenHu</span> &middot; <time>2025-11-01 10:06:59</time> &middot; in <a href="category-分析.html" class="category-label">分析</a></div>
+<p class="post-abstract">因为周三就要期中考了所以现在决定来通过写复习笔记（虽然好像更像是预习笔记QAQ）的方式来复习！</p>
         </div>
         <h1 id="第一章-解析函数">第一章 解析函数</h1>
 <h2 id="1-复数的基本性质">1. 复数的基本性质</h2>
@@ -301,7 +303,7 @@ $$
 <p>$$
 R=\lim_{k \to \infty}|\frac{a_{k}}{a_{k+1}}|
 $$</p>
-<h5 id="根式判别法_1">根式判别法</h5>
+<h5 id="根式判别法">根式判别法</h5>
 <p>$$
 R=\lim_{k \to \infty}\frac{1}{|\sqrt[k]{a_k}|}
 $$</p>
@@ -436,7 +438,7 @@ $$
 $$
 \text{Res}(f, z_0) = \frac{P(z_0)}{Q'(z_0)}
 $$</p>
-<h4 id="math262-阶极点">$m$ 阶极点</h4>
+<h4 id="m-阶极点">$m$ 阶极点</h4>
 <p><strong>法则Ⅲ</strong> ：
 $$
 \text{Res}(f, z_0) = \frac{1}{(m-1)!} \lim_{z \to z_0} \frac{d^{m-1}}{dz^{m-1}} [(z - z_0)^m f(z)]
@@ -543,86 +545,100 @@ $$I = 2\pi i \sum_{k=1}^n \text{Res}(f, z_k)$$
 
     <nav class="toc" id="toc">
       <div class="toc-title">目录</div>
-      <a class="toc-item toc-level-0" href="#1-复数的基本性质">1. 复数的基本性质</a>
-<a class="toc-item toc-level-1" href="#11-复数及其运算">1.1 复数及其运算</a>
-<a class="toc-item toc-level-1" href="#12-复数的表示">1.2 复数的表示</a>
-<a class="toc-item toc-level-2" href="#121-复平面">1.2.1 复平面</a>
-<a class="toc-item toc-level-2" href="#122-球面表示-spherical-representation--riemann-sphere">1.2.2 球面表示 (Spherical Representation / Riemann Sphere)</a>
-<a class="toc-item toc-level-1" href="#13-复平面上的曲线与复方程">1.3 复平面上的曲线与复方程</a>
-<a class="toc-item toc-level-0" href="#2-复变函数的基本性质">2. 复变函数的基本性质</a>
-<a class="toc-item toc-level-1" href="#21-复变函数定义">2.1 复变函数定义</a>
-<a class="toc-item toc-level-1" href="#22-区域">2.2 区域</a>
-<a class="toc-item toc-level-1" href="#23-极限与连续">2.3 极限与连续</a>
-<a class="toc-item toc-level-0" href="#3-复变函数的导数与微分">3. 复变函数的导数与微分</a>
-<a class="toc-item toc-level-1" href="#31-导数与微分">3.1 导数与微分</a>
-<a class="toc-item toc-level-2" href="#311-导数的定义">3.1.1 导数的定义</a>
-<a class="toc-item toc-level-2" href="#312-微分的定义">3.1.2 微分的定义</a>
-<a class="toc-item toc-level-2" href="#313-可微可导的条件">3.1.3 可微（可导）的条件</a>
-<a class="toc-item toc-level-1" href="#32-导数的几何意义">3.2 导数的几何意义</a>
-<a class="toc-item toc-level-1" href="#33-解析函数">3.3 解析函数</a>
-<a class="toc-item toc-level-2" href="#331-解析函数及其定义">3.3.1 解析函数及其定义</a>
-<a class="toc-item toc-level-2" href="#332-解析的条件及推论">3.3.2 解析的条件及推论</a>
-<a class="toc-item toc-level-2" href="#333-初等解析函数">3.3.3 初等解析函数</a>
-<a class="toc-item toc-level-0" href="#1-复变函数积分">1. 复变函数积分</a>
-<a class="toc-item toc-level-1" href="#11-围线及其方向">1.1 围线及其方向</a>
-<a class="toc-item toc-level-1" href="#12-积分的定义">1.2 积分的定义</a>
-<a class="toc-item toc-level-1" href="#13-积分公式">1.3 积分公式</a>
-<a class="toc-item toc-level-0" href="#2-柯西积分">2. 柯西积分</a>
-<a class="toc-item toc-level-1" href="#21-柯西积分定理">2.1 柯西积分定理</a>
-<a class="toc-item toc-level-2" href="#211-单连通">2.1.1 单连通</a>
-<a class="toc-item toc-level-2" href="#212-原函数">2.1.2 原函数</a>
-<a class="toc-item toc-level-2" href="#213-复连通">2.1.3 复连通</a>
-<a class="toc-item toc-level-1" href="#22-柯西公式">2.2 柯西公式</a>
-<a class="toc-item toc-level-2" href="#221-柯西积分公式">2.2.1 柯西积分公式</a>
-<a class="toc-item toc-level-2" href="#222-导数形式的柯西积分公式">2.2.2 导数形式的柯西积分公式</a>
-<a class="toc-item toc-level-2" href="#223-公式运用">2.2.3 公式运用</a>
-<a class="toc-item toc-level-0" href="#1-复级数">1. 复级数</a>
-<a class="toc-item toc-level-1" href="#11-复数项级数">1.1 复数项级数</a>
-<a class="toc-item toc-level-2" href="#111-收敛与发散的定义">1.1.1 收敛与发散的定义</a>
-<a class="toc-item toc-level-2" href="#112-敛散性判据">1.1.2 敛散性判据</a>
-<a class="toc-item toc-level-1" href="#12-幂级数">1.2 幂级数</a>
-<a class="toc-item toc-level-2" href="#121-收敛性">1.2.1 收敛性</a>
-<a class="toc-item toc-level-2" href="#122-收敛半径">1.2.2 收敛半径</a>
-<a class="toc-item toc-level-2" href="#123-收敛幂级数的分析性质">1.2.3 收敛幂级数的分析性质</a>
-<a class="toc-item toc-level-0" href="#2-泰勒级数和泰勒展开">2. 泰勒级数和泰勒展开</a>
-<a class="toc-item toc-level-1" href="#21-泰勒展开本体">2.1 泰勒展开本体</a>
-<a class="toc-item toc-level-1" href="#22-泰勒展开dlc">2.2 泰勒展开DLC</a>
-<a class="toc-item toc-level-0" href="#3-洛朗级数展开">3. 洛朗级数展开</a>
-<a class="toc-item toc-level-1" href="#31-洛朗级数">3.1 洛朗级数</a>
-<a class="toc-item toc-level-2" href="#311-洛朗级数定义">3.1.1 洛朗级数定义</a>
-<a class="toc-item toc-level-2" href="#312-收敛定理">3.1.2 收敛定理</a>
-<a class="toc-item toc-level-1" href="#32-洛朗展开定理">3.2 洛朗展开定理</a>
-<a class="toc-item toc-level-1" href="#33-收敛范围">3.3 收敛范围</a>
-<a class="toc-item toc-level-0" href="#4-奇点">4. 奇点</a>
-<a class="toc-item toc-level-0" href="#1-留数定理">1. 留数定理</a>
-<a class="toc-item toc-level-1" href="#11-留数定理">1.1 留数定理</a>
-<a class="toc-item toc-level-1" href="#12-留数的常用计算方式">1.2 留数的常用计算方式</a>
-<a class="toc-item toc-level-2" href="#简单极点">简单极点</a>
-<a class="toc-item toc-level-2" href="#math262-阶极点">$m$ 阶极点</a>
-<a class="toc-item toc-level-2" href="#本性奇点">本性奇点</a>
-<a class="toc-item toc-level-1" href="#13-无穷远处的留数">1.3 无穷远处的留数</a>
-<a class="toc-item toc-level-2" href="#无穷远处留数定义">无穷远处留数定义</a>
-<a class="toc-item toc-level-0" href="#2-留数定理计算实积分">2. 留数定理计算实积分</a>
-<a class="toc-item toc-level-1" href="#21-三个引理">2.1 三个引理</a>
-<a class="toc-item toc-level-2" href="#211-大弧线引理">2.1.1 大弧线引理</a>
-<a class="toc-item toc-level-2" href="#212-约当引理">2.1.2 约当引理</a>
-<a class="toc-item toc-level-2" href="#213-小弧引理">2.1.3 小弧引理</a>
-<a class="toc-item toc-level-1" href="#22-留数定理求实积分">2.2 留数定理求实积分</a>
-<a class="toc-item toc-level-2" href="#221-实轴上无奇点的无穷限积分">2.2.1 实轴上无奇点的无穷限积分</a>
-<a class="toc-item toc-level-2" href="#222-乘以正余弦的无穷限积分">2.2.2 乘以正余弦的无穷限积分</a>
-<a class="toc-item toc-level-2" href="#223-实轴上一级极点的无穷限积分">2.2.3 实轴上一级极点的无穷限积分</a>
-<a class="toc-item toc-level-2" href="#224-实轴上一级极点的无穷限积分但是有震荡项">2.2.4 实轴上一级极点的无穷限积分但是有震荡项</a>
-<a class="toc-item toc-level-2" href="#225-三角函数有理式积分">2.2.5 三角函数有理式积分</a>
+      <a class="toc-item toc-level-0" href="#第一章-解析函数">第一章 解析函数</a>
+<a class="toc-item toc-level-1" href="#1-复数的基本性质">1. 复数的基本性质</a>
+<a class="toc-item toc-level-2" href="#11-复数及其运算">1.1 复数及其运算</a>
+<a class="toc-item toc-level-2" href="#12-复数的表示">1.2 复数的表示</a>
+<a class="toc-item toc-level-2" href="#13-复平面上的曲线与复方程">1.3 复平面上的曲线与复方程</a>
+<a class="toc-item toc-level-1" href="#2-复变函数的基本性质">2. 复变函数的基本性质</a>
+<a class="toc-item toc-level-2" href="#21-复变函数定义">2.1 复变函数定义</a>
+<a class="toc-item toc-level-2" href="#22-区域">2.2 区域</a>
+<a class="toc-item toc-level-2" href="#23-极限与连续">2.3 极限与连续</a>
+<a class="toc-item toc-level-1" href="#3-复变函数的导数与微分">3. 复变函数的导数与微分</a>
+<a class="toc-item toc-level-2" href="#31-导数与微分">3.1 导数与微分</a>
+<a class="toc-item toc-level-2" href="#32-导数的几何意义">3.2 导数的几何意义</a>
+<a class="toc-item toc-level-2" href="#33-解析函数">3.3 解析函数</a>
+<a class="toc-item toc-level-0" href="#第二章-解析函数积分">第二章 解析函数积分</a>
+<a class="toc-item toc-level-1" href="#1-复变函数积分">1. 复变函数积分</a>
+<a class="toc-item toc-level-2" href="#11-围线及其方向">1.1 围线及其方向</a>
+<a class="toc-item toc-level-2" href="#12-积分的定义">1.2 积分的定义</a>
+<a class="toc-item toc-level-2" href="#13-积分公式">1.3 积分公式</a>
+<a class="toc-item toc-level-1" href="#2-柯西积分">2. 柯西积分</a>
+<a class="toc-item toc-level-2" href="#21-柯西积分定理">2.1 柯西积分定理</a>
+<a class="toc-item toc-level-2" href="#22-柯西公式">2.2 柯西公式</a>
+<a class="toc-item toc-level-0" href="#第三章-无穷级数">第三章 无穷级数</a>
+<a class="toc-item toc-level-1" href="#1-复级数">1. 复级数</a>
+<a class="toc-item toc-level-2" href="#11-复数项级数">1.1 复数项级数</a>
+<a class="toc-item toc-level-2" href="#12-幂级数">1.2 幂级数</a>
+<a class="toc-item toc-level-1" href="#2-泰勒级数和泰勒展开">2. 泰勒级数和泰勒展开</a>
+<a class="toc-item toc-level-2" href="#21-泰勒展开本体">2.1 泰勒展开本体</a>
+<a class="toc-item toc-level-2" href="#22-泰勒展开dlc">2.2 泰勒展开DLC</a>
+<a class="toc-item toc-level-1" href="#3-洛朗级数展开">3. 洛朗级数展开</a>
+<a class="toc-item toc-level-2" href="#31-洛朗级数">3.1 洛朗级数</a>
+<a class="toc-item toc-level-2" href="#32-洛朗展开定理">3.2 洛朗展开定理</a>
+<a class="toc-item toc-level-2" href="#33-收敛范围">3.3 收敛范围</a>
+<a class="toc-item toc-level-1" href="#4-奇点">4. 奇点</a>
+<a class="toc-item toc-level-0" href="#第四章-留数定理">第四章 留数定理</a>
+<a class="toc-item toc-level-1" href="#1-留数定理">1. 留数定理</a>
+<a class="toc-item toc-level-2" href="#11-留数定理">1.1 留数定理</a>
+<a class="toc-item toc-level-2" href="#12-留数的常用计算方式">1.2 留数的常用计算方式</a>
+<a class="toc-item toc-level-2" href="#13-无穷远处的留数">1.3 无穷远处的留数</a>
+<a class="toc-item toc-level-1" href="#2-留数定理计算实积分">2. 留数定理计算实积分</a>
+<a class="toc-item toc-level-2" href="#21-三个引理">2.1 三个引理</a>
+<a class="toc-item toc-level-2" href="#22-留数定理求实积分">2.2 留数定理求实积分</a>
+<a class="toc-item toc-level-0" href="#第五章好吧其实已经结束了">第五章……好吧其实已经结束了</a>
     </nav>
   </div>
 
   <footer class="site-footer">
     <a href="index.html">流形上的涂鸦</a><span class="footer-sep">,</span>
-    <span class="footer-copy">&copy; 2025</span>
+    <span class="footer-copy">&copy; 2026</span>
     <a href="https://chenhuhuhu.space">ChenHu</a>
   </footer>
 
   <script>
+  // 目录动态淡出效果（根据滚动位置）
+  (function() {
+    var toc = document.querySelector('.toc');
+    if (!toc) return;
+    
+    function updateMask() {
+      var st = toc.scrollTop;
+      var ch = toc.clientHeight;
+      var sh = toc.scrollHeight;
+      
+      // 如果内容完全可见，不需要淡出
+      if (sh <= ch) {
+        toc.style.maskImage = 'none';
+        return;
+      }
+      
+      // 判断是否在顶端或底端
+      var atTop = st < 1;
+      var atBottom = sh - st - ch < 1;
+      
+      var maskImage;
+      if (atTop && atBottom) {
+        // 两边都贴边，不淡出
+        maskImage = 'none';
+      } else if (atTop) {
+        // 在顶端，只在底部淡出
+        maskImage = 'linear-gradient(to bottom, black 0%, black 92%, transparent 100%)';
+      } else if (atBottom) {
+        // 在底端，只在顶部淡出
+        maskImage = 'linear-gradient(to bottom, transparent 0%, black 8%, black 100%)';
+      } else {
+        // 中间滚动，两边都淡出
+        maskImage = 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)';
+      }
+      
+      toc.style.maskImage = maskImage;
+    }
+    
+    toc.addEventListener('scroll', updateMask, { passive: true });
+    updateMask();
+  })();
+  
   // 目录滚动高亮
   (function() {
     var toc = document.getElementById('toc');
@@ -676,6 +692,7 @@ $$I = 2\pi i \sum_{k=1}^n \text{Res}(f, z_k)$$
       });
     });
   })();
+
   </script>
 </body>
 </html>

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>抽象代数学习笔记（一）</title>
+  <link rel="icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="style.css">
   <!-- KaTeX -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
@@ -25,7 +26,8 @@
       <article>
         <div class="post-header">
           <h1>抽象代数学习笔记（一）</h1>
-          <div class="post-meta"><time>2026-03-28 16:07:14</time></div>
+          <div class="post-meta"><span class="author">ChenHu</span> &middot; <time>2026-03-28 16:07:14</time> &middot; in <a href="category-代数.html" class="category-label">代数</a></div>
+<p class="post-abstract">本章是全书的地基——为后续的范畴论和代数结构提供集合论层面的合法性保障。与具体的群、环、模理论关系不大，第一遍可以快速通过，但以下概念需要真正理解。</p>
         </div>
         <blockquote>
 <p>本笔记基于李文威《代数学方法》</p>
@@ -79,7 +81,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="12-建造链从-math21-到整个数学">1.2 建造链：从 $\emptyset$ 到整个数学</h2>
+<h2 id="12-建造链从-emptyset-到整个数学">1.2 建造链：从 $\emptyset$ 到整个数学</h2>
 <p>所有数学对象都编码为集合，从空集出发一层层构造：</p>
 <p>$$\emptyset ;\xrightarrow{\text{配对、并、无穷}}; \mathbb{N} ;\xrightarrow{\text{积、商}}; \mathbb{Z} ;\xrightarrow{\text{积、商}}; \mathbb{Q} ;\xrightarrow{\text{幂集}}; \mathbb{R} ;\xrightarrow{\text{幂集}}; \text{拓扑、流形……}$$</p>
 <p><strong>自然数（冯·诺依曼方案）：</strong></p>
@@ -330,7 +332,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="8-qa">8. Q&amp;A</h1>
+<h1 id="8-qampa">8. Q&amp;A</h1>
 <p><strong>Q1：为什么 $\omega$ 和 $\omega + 1$ 等势？后者明明多了一个元素。</strong></p>
 <blockquote>
 <p>希尔伯特旅馆的思路。定义 $f: \omega + 1 \to \omega$：$f(\omega) = 0$，$f(n) = n+1$。每个人往后挪一位，$0$ 号房间腾给新来的 $\omega$。这是双射。无穷集合可以和自己的真子集等势——这甚至可以作为无穷集合的定义（Dedekind 的定义）。同理 $\omega \cdot 2$（偶奇交错）和 $\omega^2$（对角线枚举）都与 $\omega$ 等势。</p>
@@ -365,40 +367,90 @@
 
     <nav class="toc" id="toc">
       <div class="toc-title">目录</div>
-      <a class="toc-item toc-level-0" href="#11-关键公理速览">1.1 关键公理速览</a>
-<a class="toc-item toc-level-0" href="#12-建造链从-math21-到整个数学">1.2 建造链：从 $\emptyset$ 到整个数学</a>
-<a class="toc-item toc-level-0" href="#21-二元关系">2.1 二元关系</a>
-<a class="toc-item toc-level-0" href="#22-偏序partial-order">2.2 偏序（Partial Order）</a>
-<a class="toc-item toc-level-0" href="#23-全序total-order--linear-order">2.3 全序（Total Order / Linear Order）</a>
-<a class="toc-item toc-level-0" href="#24-良序well-order">2.4 良序（Well-Order）</a>
-<a class="toc-item toc-level-0" href="#31-动机">3.1 动机</a>
-<a class="toc-item toc-level-0" href="#32-冯诺依曼构造">3.2 冯·诺依曼构造</a>
-<a class="toc-item toc-level-0" href="#33-两类非零序数">3.3 两类非零序数</a>
-<a class="toc-item toc-level-0" href="#34-关键性质">3.4 关键性质</a>
-<a class="toc-item toc-level-0" href="#41-超穷归纳">4.1 超穷归纳</a>
-<a class="toc-item toc-level-0" href="#42-超穷递归">4.2 超穷递归</a>
-<a class="toc-item toc-level-0" href="#43-zorn-引理核心工具">4.3 Zorn 引理（核心工具）</a>
-<a class="toc-item toc-level-0" href="#51-幂集">5.1 幂集</a>
-<a class="toc-item toc-level-0" href="#52-基数-vs-序数">5.2 基数 vs 序数</a>
-<a class="toc-item toc-level-0" href="#53-cantor-定理">5.3 Cantor 定理</a>
-<a class="toc-item toc-level-0" href="#54-无穷基数记号与连续统假设">5.4 无穷基数记号与连续统假设</a>
-<a class="toc-item toc-level-0" href="#55-无穷基数算术">5.5 无穷基数算术</a>
-<a class="toc-item toc-level-0" href="#61-问题">6.1 问题</a>
-<a class="toc-item toc-level-0" href="#62-定义">6.2 定义</a>
-<a class="toc-item toc-level-0" href="#63-幂集封闭为什么不矛盾">6.3 幂集封闭为什么不矛盾</a>
-<a class="toc-item toc-level-0" href="#64-大小术语">6.4 大小术语</a>
-<a class="toc-item toc-level-0" href="#65-宇宙公理">6.5 宇宙公理</a>
-<a class="toc-item toc-level-0" href="#66-实际使用">6.6 实际使用</a>
+      <a class="toc-item toc-level-0" href="#1-zfc-公理体系从虚无到万物">1. ZFC 公理体系：从虚无到万物</a>
+<a class="toc-item toc-level-1" href="#11-关键公理速览">1.1 关键公理速览</a>
+<a class="toc-item toc-level-1" href="#12-建造链从-emptyset-到整个数学">1.2 建造链：从 $\emptyset$ 到整个数学</a>
+<a class="toc-item toc-level-0" href="#2-序结构">2. 序结构</a>
+<a class="toc-item toc-level-1" href="#21-二元关系">2.1 二元关系</a>
+<a class="toc-item toc-level-1" href="#22-偏序partial-order">2.2 偏序（Partial Order）</a>
+<a class="toc-item toc-level-1" href="#23-全序total-order--linear-order">2.3 全序（Total Order / Linear Order）</a>
+<a class="toc-item toc-level-1" href="#24-良序well-order">2.4 良序（Well-Order）</a>
+<a class="toc-item toc-level-0" href="#3-序数ordinals">3. 序数（Ordinals）</a>
+<a class="toc-item toc-level-1" href="#31-动机">3.1 动机</a>
+<a class="toc-item toc-level-1" href="#32-冯诺依曼构造">3.2 冯·诺依曼构造</a>
+<a class="toc-item toc-level-1" href="#33-两类非零序数">3.3 两类非零序数</a>
+<a class="toc-item toc-level-1" href="#34-关键性质">3.4 关键性质</a>
+<a class="toc-item toc-level-0" href="#4-超穷递归与-zorn-引理">4. 超穷递归与 Zorn 引理</a>
+<a class="toc-item toc-level-1" href="#41-超穷归纳">4.1 超穷归纳</a>
+<a class="toc-item toc-level-1" href="#42-超穷递归">4.2 超穷递归</a>
+<a class="toc-item toc-level-1" href="#43-zorn-引理核心工具">4.3 Zorn 引理（核心工具）</a>
+<a class="toc-item toc-level-0" href="#5-基数cardinals">5. 基数（Cardinals）</a>
+<a class="toc-item toc-level-1" href="#51-幂集">5.1 幂集</a>
+<a class="toc-item toc-level-1" href="#52-基数-vs-序数">5.2 基数 vs 序数</a>
+<a class="toc-item toc-level-1" href="#53-cantor-定理">5.3 Cantor 定理</a>
+<a class="toc-item toc-level-1" href="#54-无穷基数记号与连续统假设">5.4 无穷基数记号与连续统假设</a>
+<a class="toc-item toc-level-1" href="#55-无穷基数算术">5.5 无穷基数算术</a>
+<a class="toc-item toc-level-0" href="#6-grothendieck-宇宙">6. Grothendieck 宇宙</a>
+<a class="toc-item toc-level-1" href="#61-问题">6.1 问题</a>
+<a class="toc-item toc-level-1" href="#62-定义">6.2 定义</a>
+<a class="toc-item toc-level-1" href="#63-幂集封闭为什么不矛盾">6.3 幂集封闭为什么不矛盾</a>
+<a class="toc-item toc-level-1" href="#64-大小术语">6.4 大小术语</a>
+<a class="toc-item toc-level-1" href="#65-宇宙公理">6.5 宇宙公理</a>
+<a class="toc-item toc-level-1" href="#66-实际使用">6.6 实际使用</a>
+<a class="toc-item toc-level-0" href="#7-附录nbg-集合论另一种方案">7. 附录：NBG 集合论（另一种方案）</a>
+<a class="toc-item toc-level-0" href="#8-qampa">8. Q&amp;A</a>
     </nav>
   </div>
 
   <footer class="site-footer">
     <a href="index.html">流形上的涂鸦</a><span class="footer-sep">,</span>
-    <span class="footer-copy">&copy; 2025</span>
+    <span class="footer-copy">&copy; 2026</span>
     <a href="https://chenhuhuhu.space">ChenHu</a>
   </footer>
 
   <script>
+  // 目录动态淡出效果（根据滚动位置）
+  (function() {
+    var toc = document.querySelector('.toc');
+    if (!toc) return;
+    
+    function updateMask() {
+      var st = toc.scrollTop;
+      var ch = toc.clientHeight;
+      var sh = toc.scrollHeight;
+      
+      // 如果内容完全可见，不需要淡出
+      if (sh <= ch) {
+        toc.style.maskImage = 'none';
+        return;
+      }
+      
+      // 判断是否在顶端或底端
+      var atTop = st < 1;
+      var atBottom = sh - st - ch < 1;
+      
+      var maskImage;
+      if (atTop && atBottom) {
+        // 两边都贴边，不淡出
+        maskImage = 'none';
+      } else if (atTop) {
+        // 在顶端，只在底部淡出
+        maskImage = 'linear-gradient(to bottom, black 0%, black 92%, transparent 100%)';
+      } else if (atBottom) {
+        // 在底端，只在顶部淡出
+        maskImage = 'linear-gradient(to bottom, transparent 0%, black 8%, black 100%)';
+      } else {
+        // 中间滚动，两边都淡出
+        maskImage = 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)';
+      }
+      
+      toc.style.maskImage = maskImage;
+    }
+    
+    toc.addEventListener('scroll', updateMask, { passive: true });
+    updateMask();
+  })();
+  
   // 目录滚动高亮
   (function() {
     var toc = document.getElementById('toc');
@@ -452,6 +504,7 @@
       });
     });
   })();
+
   </script>
 </body>
 </html>

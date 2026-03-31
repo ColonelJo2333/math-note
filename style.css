@@ -12,10 +12,11 @@
   --accent:     #FEB246;
   --accent-dark:#D4922A;
   --border:     #E6E3DA;
+  --rail:       rgba(230, 227, 218, 0.88);
   --serif:      "Source Serif 4", "Noto Serif SC", "Songti SC", Georgia, "Times New Roman", serif;
   --sans:       -apple-system, "Helvetica Neue", "PingFang SC", sans-serif;
   --mono:       "JetBrains Mono", "Fira Code", Consolas, monospace;
-  --content-w:  720px;
+  --content-w:  760px;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&display=swap');
@@ -99,17 +100,9 @@ body {
   width: 90px;
   flex-shrink: 0;
   position: relative;
+  border-right: 1px solid var(--rail);
 }
-/* 贯穿竖线 */
-.sidebar-timeline::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1px;
-  height: 100%;
-  background: var(--border);
-}
+/* 贯穿竖线由右边框实现 */
 .tl-year {
   font-size: 0.8rem;
   font-weight: 600;
@@ -132,6 +125,7 @@ body {
   background: var(--fg-muted);
 }
 .tl-dot {
+  display: block;
   text-align: right;
   padding: 0.75rem 0;
   padding-right: 1.2rem;
@@ -140,6 +134,7 @@ body {
   font-family: var(--sans);
   font-variant-numeric: tabular-nums;
   position: relative;
+  text-decoration: none;
 }
 /* 节点圆点 */
 .tl-dot::after {
@@ -169,6 +164,7 @@ body {
 .post-entry {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--border);
+  scroll-margin-top: 5rem;
 }
 .post-entry:first-child { padding-top: 0.5rem; }
 .post-entry-title {
@@ -192,11 +188,15 @@ body {
   gap: 0.6rem;
 }
 .post-entry-cat {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--accent-dark);
-  background: rgba(254, 178, 70, 0.13);
-  padding: 0.1em 0.55em;
-  border-radius: 3px;
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.post-entry-cat:hover {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
 }
 .post-entry-abstract {
   font-size: 0.95rem;
@@ -225,8 +225,13 @@ body {
 .sidebar-cats {
   width: 90px;
   flex-shrink: 0;
-  padding-top: 0.5rem;
+  padding-top: 0;
+  position: relative;
+  padding-left: 1.2rem;
+  text-align: left;
+  border-left: 1px solid var(--rail);
 }
+/* 与时间线同构的竖线样式，仅位置在左侧，由左边框实现 */
 .sidebar-cats-title {
   font-size: 0.72rem;
   font-weight: 600;
@@ -278,13 +283,17 @@ body {
 }
 .post-meta .author { font-style: italic; }
 .post-meta .category-label {
-  display: inline-block;
+  display: inline;
   font-size: 0.82rem;
   color: var(--accent-dark);
-  background: rgba(254, 178, 70, 0.15);
-  padding: 0.1em 0.7em;
-  border-radius: 3px;
   font-family: var(--sans);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.post-meta .category-label:hover {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
 }
 .post-abstract {
   margin: 1rem auto 0;
@@ -302,18 +311,19 @@ article h2 {
   font-weight: 700;
   margin: 2.8rem 0 1rem;
   padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--border);
 }
 article h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 0.8rem; }
 article h4 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
-article p { margin-bottom: 1.2rem; }
+article p { margin-bottom: 1.2rem; line-height: 1.75; }
 article ul, article ol { margin: 0 0 1.2rem 1.5rem; }
 article li { margin-bottom: 0.3rem; }
 article blockquote {
-  margin: 1.5rem 0; padding: 0.8rem 1.2rem;
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
   border-left: 3px solid var(--accent); color: var(--fg-sec);
   background: var(--bg-card); border-radius: 0 4px 4px 0;
 }
+article blockquote p { margin: 0; }
 article hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 article a { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 2px; }
 article a:hover { text-decoration-thickness: 2px; }
@@ -329,30 +339,92 @@ article tbody td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border);
 article tbody tr:last-child td { border-bottom: 2px solid var(--fg); }
 
 /* KaTeX */
-.katex-display { margin: 1.5rem 0; overflow-x: auto; overflow-y: hidden; }
+.katex-display {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+  line-height: 1.6;
+}
+
+/* 行内公式含上/下标或 \overset 时，确保行高能容纳公式高度 */
+article p .katex { line-height: 1.6; display: inline-block; }
 
 /* ── 侧边目录 (fixed) ── */
 .toc {
   position: fixed;
-  top: 3rem;
-  right: max(1.5rem, calc((100vw - var(--content-w)) / 2 - 230px));
-  width: 180px;
-  max-height: calc(100vh - 6rem);
-  overflow-y: auto;
-  font-size: 0.82rem;
+  top: 50%;
+  transform: translateY(-50%);
+  left: max(1.5rem, calc((100vw - var(--content-w)) / 2 - 255px));
+  width: 210px;
+  max-height: min(60vh, 480px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  font-size: 0.92rem;
+  text-align: left;
+  padding-right: 0.7rem;
+  border-right: 1px solid var(--border);
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+  -ms-overflow-style: none;
+  mask-image: linear-gradient(to bottom,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
 }
+.toc::-webkit-scrollbar,
+.toc::-webkit-scrollbar-track,
+.toc::-webkit-scrollbar-thumb,
+.toc::-webkit-scrollbar-corner { width: 0 !important; height: 0 !important; background: transparent !important; }
 .toc-title {
-  font-size: 0.72rem; font-weight: 600; color: var(--fg-muted);
+  font-size: 0.76rem; font-weight: 700; color: var(--fg-sec);
   text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem;
   font-family: var(--sans);
 }
 .toc .toc-item {
-  display: block; line-height: 1.5; color: var(--fg-muted); text-decoration: none;
+  display: block; line-height: 1.55; color: var(--fg-sec); text-decoration: none;
   padding: 0.15rem 0 0.15rem 0.7rem; border-left: 1.5px solid transparent;
   transition: color 0.15s, border-color 0.15s;
 }
-.toc .toc-item.toc-level-1 { padding-left: 1.3rem; }
-.toc .toc-item.toc-level-2 { padding-left: 1.9rem; }
+.toc .toc-item.toc-level-0 {
+  font-size: 0.96rem;
+  font-weight: 700;
+  margin-top: 0.3rem;
+  margin-bottom: 0.15rem;
+  color: var(--fg);
+}
+.toc .toc-item.toc-level-1 {
+  font-size: 0.87rem;
+  font-weight: 500;
+  padding-left: 1.45rem;
+  color: var(--fg-muted);
+  position: relative;
+}
+.toc .toc-item.toc-level-2 {
+  font-size: 0.82rem;
+  font-weight: 400;
+  padding-left: 2.1rem;
+  color: var(--fg-muted);
+  opacity: 0.9;
+  position: relative;
+}
+.toc .toc-item.toc-level-1::before,
+.toc .toc-item.toc-level-2::before {
+  content: "";
+  position: absolute;
+  top: 0.28rem;
+  bottom: 0.28rem;
+  width: 1px;
+  background: var(--border);
+}
+.toc .toc-item.toc-level-1::before { left: 1rem; }
+.toc .toc-item.toc-level-2::before { left: 1.65rem; }
+.toc .toc-item.toc-level-0 { border-left-color: transparent; }
 .toc .toc-item:hover { color: var(--fg); }
 .toc .toc-item.active { color: var(--accent-dark); border-left-color: var(--accent); font-weight: 500; }
 
