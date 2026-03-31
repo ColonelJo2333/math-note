@@ -254,7 +254,14 @@ def render_template(template_str, title_val, page_content):
     favicon_html = f'<link rel="icon" href="{favicon}">' if favicon else ""
     year = time.strftime("%Y")
     
+    theme_css = ""
+    theme_conf = get_conf("theme", {})
+    if theme_conf:
+        vars = [f"--{k}: {v};" for k, v in theme_conf.items()]
+        theme_css = "<style>:root {\n  " + "\n  ".join(vars) + "\n}</style>"
+    
     html = template_str.replace("{{page_content}}", page_content)
+    html = html.replace("</head>", f"{theme_css}\n</head>")
     html = html.replace("{{title}}", title_val)
     html = html.replace("{{site_title}}", site_title)
     html = html.replace("{{author}}", author)
@@ -302,12 +309,13 @@ def build_index(posts, template):
     sidebar_tl = '    <aside class="sidebar-timeline">\n'
     current_year = ""
     for p in posts:
-        year = p["date"][:4] if p["date"] else ""
+        date_str = p.get("date", "").split(" ")[0] # 去除时间部分
+        year = date_str[:4] if len(date_str) >= 4 else ""
         if year != current_year:
             current_year = year
             sidebar_tl += f'      <div class="tl-year">{year}</div>\n'
-        date_short = p["date"][5:] if len(p["date"]) >= 10 else p["date"]
-        sidebar_tl += f'      <div class="tl-dot">{date_short}</div>\n'
+        date_short = date_str[5:] if len(date_str) >= 10 else date_str
+        sidebar_tl += f'      <a href="#{p["slug"]}" class="tl-dot">{date_short}</a>\n'
     sidebar_tl += '    </aside>'
 
     # ── 中间文章预览（平铺，无卡片） ──
@@ -316,7 +324,7 @@ def build_index(posts, template):
         cat_link = f'<a href="category-{_slugify(p["category"], '-')}.html" class="post-entry-cat">{p["category"]}</a>' if p["category"] else ""
         abstract_html = f'\n        <div class="post-entry-abstract">{p["abstract"]}</div>' if p["abstract"] else ""
         excerpt_html  = f'\n        <div class="post-entry-excerpt">{p["excerpt"]}</div>' if p["excerpt"] else ""
-        entries += f'''      <div class="post-entry">
+        entries += f'''      <div class="post-entry" id="{p['slug']}">
         <div class="post-entry-title"><a href="{p["slug"]}.html">{p["title"]}</a></div>
         <div class="post-entry-meta"><span>{p["date"]}</span>{cat_link}</div>{abstract_html}{excerpt_html}
         <a class="post-entry-more" href="{p["slug"]}.html">Read More</a>
@@ -357,12 +365,13 @@ def build_category(category, posts, template):
     sidebar_tl = '    <aside class="sidebar-timeline">\n'
     current_year = ""
     for p in category_posts:
-        year = p["date"][:4] if p["date"] else ""
+        date_str = p.get("date", "").split(" ")[0] # 去除时间部分
+        year = date_str[:4] if len(date_str) >= 4 else ""
         if year != current_year:
             current_year = year
             sidebar_tl += f'      <div class="tl-year">{year}</div>\n'
-        date_short = p["date"][5:] if len(p["date"]) >= 10 else p["date"]
-        sidebar_tl += f'      <div class="tl-dot">{date_short}</div>\n'
+        date_short = date_str[5:] if len(date_str) >= 10 else date_str
+        sidebar_tl += f'      <a href="#{p["slug"]}" class="tl-dot">{date_short}</a>\n'
     sidebar_tl += '    </aside>'
 
     entries = '    <div class="post-entries">\n'
@@ -370,7 +379,7 @@ def build_category(category, posts, template):
         cat_link = f'<a href="category-{_slugify(p["category"], '-')}.html" class="post-entry-cat">{p["category"]}</a>' if p["category"] else ""
         abstract_html = f'\n        <div class="post-entry-abstract">{p["abstract"]}</div>' if p["abstract"] else ""
         excerpt_html  = f'\n        <div class="post-entry-excerpt">{p["excerpt"]}</div>' if p["excerpt"] else ""
-        entries += f'''      <div class="post-entry">
+        entries += f'''      <div class="post-entry" id="{p['slug']}">
         <div class="post-entry-title"><a href="{p["slug"]}.html">{p["title"]}</a></div>
         <div class="post-entry-meta"><span>{p["date"]}</span>{cat_link}</div>{abstract_html}{excerpt_html}
         <a class="post-entry-more" href="{p["slug"]}.html">Read More</a>

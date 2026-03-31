@@ -342,11 +342,8 @@ article tbody tr:last-child td { border-bottom: 2px solid var(--fg); }
 .katex-display {
   margin: 1.5rem 0;
   overflow-x: auto;
-  overflow-y: visible;
-  display: flex;
-  justify-content: center;
-  padding: 0.5rem 0;
-  line-height: 1.6;
+  overflow-y: hidden; /* 防止出现垂直滚动条 */
+  padding: 1rem 0;    /* 增加垂直内边距以容纳高公式，防止被 hidden 裁剪 */
 }
 
 /* 行内公式含上/下标或 \overset 时，确保行高能容纳公式高度 */

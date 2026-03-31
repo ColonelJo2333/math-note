@@ -20,3 +20,16 @@ social_links:
   - name: "Bilibili"
     url: "https://space.bilibili.com/506403405"
     icon: "bilibili"
+
+# 网站色彩主题配置
+theme:
+  bg:         "#FAF9F5"                     # 页面背景色
+  bg-card:    "#FFFFFF"                     # 卡片/区块背景色
+  bg-code:    "#2D2D2D"                     # 代码块背景色
+  fg:         "#1A1A1A"                     # 主文本颜色
+  fg-sec:     "#555249"                     # 次要文本颜色
+  fg-muted:   "#9C978B"                     # 弱化文本颜色
+  accent:     "#FEB246"                     # 强调色/主色调 (如链接、按钮)
+  accent-dark: "#D4922A"                    # 强调色(悬停状态的深色)
+  border:     "#E6E3DA"                     # 边框常规颜色
+  rail:       "rgba(230, 227, 218, 0.88)"   # 侧边栏装饰线颜色
