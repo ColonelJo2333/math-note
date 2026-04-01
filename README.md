@@ -60,6 +60,23 @@ python build.py serve
 
 网站信息和样式都在 `config.yaml` 里设置，包括标题、作者、社交链接、主题颜色等。改配置不需要动代码。
 
+### 站点地图（sitemap.xml）
+
+每次执行 `python build.py build`（或 `serve` 自动重建）都会在 `dist/` 下自动生成 `sitemap.xml`，包含：
+
+- 首页 `/`
+- 所有文章页面 `/*.html`
+- 所有分类页面 `/category-*.html`
+
+为了生成正确的绝对链接，请在 `config.yaml` 中设置：
+
+```yaml
+site:
+	url: "https://your-site-domain.com"
+```
+
+如果未设置 `site.url`，程序会尝试使用 `site.author_link` 作为回退地址。
+
 ---
 
 ## 部署到 Vercel

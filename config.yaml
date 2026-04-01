@@ -1,6 +1,9 @@
 site:
   title: "流形上的涂鸦"
   subtitle: "Scribbles on Manifolds — 一些数学笔记与思考"
+  # 站点根地址（用于生成 sitemap.xml）
+  # 示例: "https://notes.example.com"
+  url: "https://notes.chenhuhuhu.space/"
   author: "ChenHu"
   author_link: "https://chenhuhuhu.space"
   # 网站图标 (请放置对应文件到 images 文件夹，如 /images/favicon.ico)

@@ -9,6 +9,8 @@
 import os, sys, re, shutil, time, threading
 from pathlib import Path
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from urllib.parse import quote
+from xml.sax.saxutils import escape as xml_escape
 
 try:
     import markdown
@@ -47,6 +49,19 @@ def get_conf(key_path, default=""):
         return v
     except (KeyError, TypeError):
         return default
+
+
+def get_site_base_url():
+    """返回站点基址（用于 sitemap），优先 site.url，回退到 author_link。"""
+    site_url = str(get_conf("site.url", "")).strip()
+    if site_url:
+        return site_url.rstrip("/")
+
+    author_link = str(get_conf("site.author_link", "")).strip()
+    if author_link.startswith("http://") or author_link.startswith("https://"):
+        return author_link.rstrip("/")
+
+    return ""
 
 
 # ── YAML front matter 解析（不依赖 pyyaml） ──────────
@@ -413,6 +428,32 @@ def build_category(category, posts, template):
     out.write_text(html, encoding="utf-8")
     return slug
 
+
+def build_sitemap(posts, category_slugs):
+    """生成 sitemap.xml（首页、文章页、分类页）。"""
+    base_url = get_site_base_url()
+    if not base_url:
+        print("   ⚠ 跳过 sitemap.xml：请在 config.yaml 的 site.url 配置站点域名")
+        return
+
+    urls = [f"{base_url}/"]
+    urls.extend(f"{base_url}/{quote(p['slug'])}.html" for p in posts)
+    urls.extend(f"{base_url}/{quote(slug)}.html" for slug in category_slugs)
+
+    xml_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for u in urls:
+        xml_lines.append("  <url>")
+        xml_lines.append(f"    <loc>{xml_escape(u)}</loc>")
+        xml_lines.append("  </url>")
+    xml_lines.append("</urlset>")
+
+    out = DIST_DIR / "sitemap.xml"
+    out.write_text("\n".join(xml_lines) + "\n", encoding="utf-8")
+    print("   ✓ sitemap.xml")
+
 # ── 完整构建 ─────────────────────────────────────────
 def build():
     print("⚙  构建中...")
@@ -455,9 +496,13 @@ def build():
     
     # 构建所有分类页面
     categories = sorted(set(p["category"] for p in posts if p["category"]))
+    category_slugs = []
     for cat in categories:
         cat_slug = build_category(cat, posts, template)
+        category_slugs.append(cat_slug)
         print(f"   ✓ {cat_slug}.html")
+
+    build_sitemap(posts, category_slugs)
 
     elapsed = time.time() - start
     print(f"✔  构建完成 ({len(posts)} 篇, {elapsed:.2f}s)")
